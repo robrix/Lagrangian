@@ -1,13 +1,8 @@
-//  L3TRDynamicLibrary.m
-//  Created by Rob Rix on 2012-12-21.
-//  Copyright (c) 2012 Rob Rix. All rights reserved.
-
 #import "L3TRDynamicLibrary.h"
-
 #import <dlfcn.h>
 
 @interface L3TRDynamicLibrary ()
-@property (nonatomic, assign, readonly) void *handle;
+@property (nonatomic, readonly) void *handle;
 @end
 
 @implementation L3TRDynamicLibrary
@@ -18,7 +13,7 @@
 			}];
 }
 
-+(void *)validateDYLDPointer:(void *)pointer error:(NSError **)error {
++(void *)validateDYLDPointer:(void *)pointer error:(NSError * __autoreleasing *)error {
 	if (!pointer) {
 		const char *errorMessage = dlerror();
 		if (error)
@@ -27,15 +22,21 @@
 	return pointer;
 }
 
-+(instancetype)openLibraryAtPath:(NSString *)path error:(NSError **)error {
++(instancetype)openLibraryAtPath:(NSString *)path error:(NSError * __autoreleasing *)error {
 	L3TRDynamicLibrary *library = nil;
 	void *handle = [self validateDYLDPointer:dlopen(path.fileSystemRepresentation, RTLD_NOW | RTLD_LOCAL) error:error];
 	if (handle) {
-		library = [self new];
-		library->_path = [path copy];
-		library->_handle = handle;
+		library = [[self alloc] initWithPath:path handle:handle];
 	}
 	return library;
+}
+
+-(instancetype)initWithPath:(NSString *)path handle:(void *)handle {
+	if ((self = [super init])) {
+		_path = [path copy];
+		_handle = handle;
+	}
+	return self;
 }
 
 -(void)dealloc {
@@ -43,7 +44,7 @@
 }
 
 
--(void *)loadSymbolWithName:(NSString *)symbolName error:(NSError **)error {
+-(void *)loadSymbolWithName:(NSString *)symbolName error:(NSError * __autoreleasing *)error {
 	return [self.class validateDYLDPointer:dlsym(self.handle, symbolName.UTF8String) error:error];
 }
 

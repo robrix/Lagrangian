@@ -1,7 +1,3 @@
-//  NSException+L3OCUnitCompatibility.m
-//  Created by Rob Rix on 7/22/2013.
-//  Copyright (c) 2013 Rob Rix. All rights reserved.
-
 #import "NSException+L3OCUnitCompatibility.h"
 
 @implementation NSException (L3OCUnitCompatibility)
@@ -25,9 +21,9 @@
 	}
 	
 	return [NSException exceptionWithName:@"L3Exception" reason:description userInfo:@{
-																					   @"filename": filename,
-																					   @"lineNumber": @(lineNumber),
-																					   }];
+		@"filename": filename,
+		@"lineNumber": @(lineNumber),
+	}];
 }
 
 @end

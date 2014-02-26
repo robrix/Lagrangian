@@ -1,7 +1,3 @@
-//  NSException+L3OCUnitCompatibility.h
-//  Created by Rob Rix on 7/22/2013.
-//  Copyright (c) 2013 Rob Rix. All rights reserved.
-
 #import <Foundation/Foundation.h>
 
 @interface NSException (L3OCUnitCompatibility)
