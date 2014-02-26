@@ -11,7 +11,4 @@
 #import <Lagrangian/L3TestRunner.h>
 #import <Lagrangian/L3TestState.h>
 
-#import <Lagrangian/L3Mock.h>
-
-
 #endif // LAGRANGIAN_H
