@@ -1,13 +1,14 @@
-//
-//  Lagrangian.h
-//  Lagrangian
-//
-//  Created by Rob Rix on 2012-11-05.
-//  Copyright (c) 2012 Rob Rix. All rights reserved.
-//
+#ifndef LAGRANGIAN_H
+#define LAGRANGIAN_H
 
-#import <Foundation/Foundation.h>
+#import <Lagrangian/metamacros.h>
+#import <Lagrangian/L3Defines.h>
 
-@interface Lagrangian : NSObject
+#import <Lagrangian/L3SourceReference.h>
+#import <Lagrangian/L3Expectation.h>
 
-@end
+#import <Lagrangian/L3Test.h>
+#import <Lagrangian/L3TestRunner.h>
+#import <Lagrangian/L3TestState.h>
+
+#endif // LAGRANGIAN_H
