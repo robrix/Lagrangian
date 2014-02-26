@@ -653,6 +653,7 @@
 					"-Wno-objc-missing-property-synthesis",
 					"-Wno-c11-extensions",
 					"-Wno-vla",
+					"-Wno-auto-import",
 				);
 			};
 			name = Debug;
@@ -686,6 +687,7 @@
 					"-Wno-objc-missing-property-synthesis",
 					"-Wno-c11-extensions",
 					"-Wno-vla",
+					"-Wno-auto-import",
 				);
 			};
 			name = Release;

@@ -1,23 +1,9 @@
-//  lagrangian-tool.m
-//  Created by Rob Rix on 2012-11-07.
-//  Copyright (c) 2012 Rob Rix. All rights reserved.
-
-#if __has_feature(modules)
-@import Cocoa;
-@import Darwin.POSIX.dlfcn;
-@import Darwin.C.stdio;
-@import Darwin.C.stdlib;
-@import Darwin.sys.sysctl;
-#else
 #import <Cocoa/Cocoa.h>
 #import <dlfcn.h>
 #import <stdio.h>
 #import <stdlib.h>
 #import <sys/sysctl.h>
-#endif
-
 #import "L3TRDynamicLibrary.h"
-
 #import "Lagrangian.h"
 
 static void L3TRLogString(FILE *file, NSString *string) {
