@@ -4,7 +4,6 @@
 #import <stdlib.h>
 #import <sys/sysctl.h>
 #import "L3TRDynamicLibrary.h"
-#import "Lagrangian.h"
 
 static void L3TRLogString(FILE *file, NSString *string) {
 	fprintf(file, "%s", [string UTF8String]);
@@ -59,16 +58,34 @@ static inline bool processIsAncestorOfProcess(pid_t maybeAncestor, pid_t process
 	return isAncestor;
 }
 
+@protocol L3Test <NSObject>
++(NSDictionary *)registeredSuites;
++(id<L3Test>)registeredSuiteForFile:(NSString *)file;
+@end
+
+@protocol L3TestRunner <NSObject>
++(BOOL)shouldRunTestsAtLaunch;
+-(void)enqueueTest:(id<L3Test>)test;
+-(BOOL)waitForTestsToComplete;
+@end
+
+static NSString * const L3TestRunnerRunTestsOnLaunchEnvironmentVariableName = @"L3_RUN_TESTS_ON_LAUNCH";
+static NSString * const L3TestRunnerSubjectEnvironmentVariableName = @"L3_TEST_RUNNER_SUBJECT";
+
 int main(int argc, const char *argv[]) {
 	int result = EXIT_SUCCESS;
 	@autoreleasepool {
-		l3_main(argc, argv);
+		do {
+			if ([NSClassFromString(@"L3TestRunner") shouldRunTestsAtLaunch]) { \
+				dispatch_main(); \
+			}
+		} while(0);
 		
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		NSProcessInfo *processInfo = [NSProcessInfo processInfo];
 		
 		[defaults registerDefaults:@{
-		 L3TRLagrangianFrameworkPathArgumentName: [[[processInfo.arguments[0] stringByDeletingLastPathComponent] stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"Lagrangian.framework"]
+		 L3TRLagrangianFrameworkPathArgumentName: [[processInfo.arguments[0] stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"Lagrangian.framework"]
 		 }];
 		
 		if (!NSClassFromString(@"L3TestRunner")) {
@@ -85,11 +102,11 @@ int main(int argc, const char *argv[]) {
 			NSBundle *frameworkBundle = [NSBundle bundleWithPath:frameworkPath];
 			L3TRTry([frameworkBundle loadAndReturnError:&error]);
 			
-			L3TestRunner *runner = [NSClassFromString(@"L3TestRunner") new];
+			id<L3TestRunner> runner = [NSClassFromString(@"L3TestRunner") new];
 			
-			for (NSString *path in [L3Test registeredSuites]) {
+			for (NSString *path in [NSClassFromString(@"L3Test") registeredSuites]) {
 				if ([path hasPrefix:frameworkPath]) {
-					[runner enqueueTest:[L3Test registeredSuites][path]];
+					[runner enqueueTest:[NSClassFromString(@"L3Test") registeredSuites][path]];
 				}
 			}
 			
@@ -99,9 +116,9 @@ int main(int argc, const char *argv[]) {
 		} else if (libraryPath) {
 			L3TRTry([L3TRDynamicLibrary openLibraryAtPath:libraryPath error:&error]);
 			
-			L3TestRunner *runner = [NSClassFromString(@"L3TestRunner") new];
+			id<L3TestRunner> runner = [NSClassFromString(@"L3TestRunner") new];
 			
-			L3Test *test = [L3Test registeredSuiteForFile:libraryPath];
+			id<L3Test> test = [NSClassFromString(@"L3Test") registeredSuiteForFile:libraryPath];
 			if (test)
 				[runner enqueueTest:test];
 			
@@ -117,8 +134,10 @@ int main(int argc, const char *argv[]) {
 			NSMutableDictionary *environment = [processInfo.environment mutableCopy];
 			
 			environment[L3TRDynamicLibraryPathEnvironmentVariableName] = L3TRPathListByAddingPath(environment[L3TRDynamicLibraryPathEnvironmentVariableName], [[[NSUserDefaults standardUserDefaults] stringForKey:L3TRLagrangianFrameworkPathArgumentName] stringByDeletingLastPathComponent]);
-			environment[L3TestRunnerRunTestsOnLaunchEnvironmentVariableName] = @"YES";
-			environment[L3TestRunnerSubjectEnvironmentVariableName] = command;
+			if (L3TestRunnerRunTestsOnLaunchEnvironmentVariableName != nil)
+				environment[L3TestRunnerRunTestsOnLaunchEnvironmentVariableName] = @"YES";
+			if (L3TestRunnerSubjectEnvironmentVariableName != nil)
+				environment[L3TestRunnerSubjectEnvironmentVariableName] = command;
 			
 			task.environment = environment;
 			
