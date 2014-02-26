@@ -7,8 +7,6 @@
 #import <Foundation/Foundation.h>
 #endif
 
-#import <RXPreprocessing/fold.h>
-
 @protocol L3MockBuilder;
 typedef void(^L3MockInitializer)(id<L3MockBuilder> mock);
 
@@ -31,8 +29,6 @@ typedef void(^L3MockInitializer)(id<L3MockBuilder> mock);
 
 @end
 
-#define L3TypeSignatureEncode(_, type) @encode(type)
-#define L3TypeSignature(...) rx_fold(L3TypeSignatureEncode, _, __VA_ARGS__)
 const char *L3ConstructTypeSignature(char type[], ...);
 
 #endif // L3_MOCK_H

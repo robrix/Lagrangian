@@ -85,7 +85,7 @@ l3_test(@selector(addMethodWithSelector:block:), ^{
 
 l3_test(@selector(addMethodWithSelector:types:block:), ^{
 	L3Mock *mock = [L3Mock mockWithInitializer:^(id<L3MockBuilder> mock) {
-		[mock addMethodWithSelector:@selector(description) types:L3TypeSignature(id, id, SEL) block:^{
+		[mock addMethodWithSelector:@selector(description) types:L3ConstructTypeSignature(@encode(id), @encode(id), @encode(SEL), NULL) block:^{
 			return @"test";
 		}];
 	}];

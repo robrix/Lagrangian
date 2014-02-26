@@ -11,8 +11,6 @@
 #import <Lagrangian/L3Expectation.h>
 #import <Lagrangian/L3SourceReference.h>
 
-#import <RXPreprocessing/concat.h>
-
 
 #pragma mark API
 
@@ -22,8 +20,8 @@
 	_l3_test(__FILE__, __LINE__, __COUNTER__, __VA_ARGS__)
 
 #define _l3_test(file, line, uid, ...) \
-	L3_CONSTRUCTOR void rx_concat(L3Test, uid)(void) { \
-		L3Test *suite = [L3Test suiteForFile:@(file) inImageForAddress:rx_concat(L3Test, uid)]; \
+	L3_CONSTRUCTOR void metamacro_concat(L3Test, uid)(void) { \
+		L3Test *suite = [L3Test suiteForFile:@(file) inImageForAddress:metamacro_concat(L3Test, uid)]; \
 		__block L3Test *self = L3TestDefine(@(file), line, __VA_ARGS__); \
 		self.statePrototype = suite.statePrototype; \
 		[suite addChild:self]; \
