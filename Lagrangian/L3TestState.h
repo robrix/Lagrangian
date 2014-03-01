@@ -21,8 +21,8 @@
 	@property (readonly) L3TestState<_l3_state_protocol_name(name)> *state; \
 	@end \
 	\
-	L3_CONSTRUCTOR void metamacro_concat(L3TestStateConstructor, name)(void) { \
-		L3Test *suite = [L3Test suiteForFile:@(__FILE__) inImageForAddress:metamacro_concat(L3TestStateConstructor, name)]; \
+	L3_CONSTRUCTOR void _l3_state_constructor_name(name) (void) { \
+		L3Test *suite = [L3Test suiteForFile:@(__FILE__) inImageForAddress:_l3_state_constructor_name(name)]; \
 		suite.statePrototype = (id)L3TestStatePrototypeDefine(@protocol(_l3_state_protocol_name(name)), ^(L3Test *self){ (__VA_ARGS__)(); }); \
 	}
 
@@ -34,6 +34,9 @@
 
 #define _l3_state_protocol_name(name) \
 	metamacro_concat(metamacro_concat(L3, name), State)
+
+#define _l3_state_constructor_name(name) \
+	metamacro_concat(_l3_state_protocol_name(name), Constructor)
 
 #else // defined(L3_INCLUDE_TESTS)
 
