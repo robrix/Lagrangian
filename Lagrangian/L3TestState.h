@@ -33,7 +33,7 @@
 	metamacro_foreach(_l3_declaration_as_property, , __VA_ARGS__)
 
 #define _l3_state_protocol_name(name) \
-	metamacro_concat(L3TestStateProtocol_, name)
+	metamacro_concat(metamacro_concat(L3, name), State)
 
 #else // defined(L3_INCLUDE_TESTS)
 
