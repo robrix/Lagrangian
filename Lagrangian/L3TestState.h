@@ -53,7 +53,7 @@
 #else // defined(L3_INCLUDE_TESTS)
 
 #define _l3_state_construct(name) \
-	__unused static void metamacro_concat(metamacro_concat(L3, name), UnusedIgnoredSetupFunction) (L3Test *self)
+	L3_UNUSABLE void metamacro_concat(metamacro_concat(L3, name), UnusableSetupFunction) (L3Test *self)
 
 #endif // defined(L3_INCLUDE_TESTS)
 
