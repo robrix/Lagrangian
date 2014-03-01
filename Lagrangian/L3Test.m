@@ -154,6 +154,13 @@ static inline NSString *L3PathForImageWithAddress(void(*address)(void)) {
 	return [visitor visitTest:self parents:parents lazyChildren:lazyChildren context:context];
 }
 
+
+#pragma mark NSObject
+
+-(NSString *)description {
+	return [NSString stringWithFormat:@"%@ (%@)", super.description, self.sourceReference];
+}
+
 @end
 
 
