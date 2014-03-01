@@ -9,6 +9,10 @@ NSString * const L3ErrorDomain = @"com.antitypical.lagrangian";
 NSString * const L3ExpectationErrorKey = @"L3ExpectationErrorKey";
 NSString * const L3TestErrorKey = @"L3TestErrorKey";
 
+l3_setup(L3Test, (L3Test *test)) {
+	
+}
+
 @interface L3Test ()
 
 @property (readonly) L3TestBlock block;
