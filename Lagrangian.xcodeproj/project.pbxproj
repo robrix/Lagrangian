@@ -659,6 +659,7 @@
 					"-Wno-vla",
 					"-Wno-auto-import",
 					"-Wno-custom-atomic-properties",
+					"-Wno-direct-ivar-access",
 				);
 			};
 			name = Debug;
@@ -694,6 +695,7 @@
 					"-Wno-vla",
 					"-Wno-auto-import",
 					"-Wno-custom-atomic-properties",
+					"-Wno-direct-ivar-access",
 				);
 			};
 			name = Release;
