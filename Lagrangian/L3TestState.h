@@ -9,8 +9,8 @@
 
 #if defined(L3_INCLUDE_TESTS)
 
-#define l3_setup(...) \
-	_l3_setup(__COUNTER__, __VA_ARGS__)
+#define l3_setup(name, ...) \
+	_l3_setup(metamacro_concat(name, __COUNTER__), __VA_ARGS__)
 
 #define _l3_setup(uid, declarations, ...) \
 	@protocol _l3_state_protocol_name(uid) <NSObject> \

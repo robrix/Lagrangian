@@ -2,12 +2,11 @@
 #import "Lagrangian.h"
 #import <objc/runtime.h>
 
-l3_setup((NSNumber *flag), ^{
-	self.state.flag = @YES;
-})
+l3_setup(L3TestState, (NSNumber *flag, NSUInteger line), ^{ self.state.flag = @YES; self.state.line = __LINE__; })
 
 l3_test("l3_setup", ^{
 	l3_expect(self.state.flag).to.equal(@YES);
+	l3_expect(self.state.line).to.equal(@5);
 })
 
 @protocol L3TestStateProtocolTest <NSObject>
