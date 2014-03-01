@@ -10,20 +10,20 @@
 #if defined(L3_INCLUDE_TESTS)
 
 #define l3_setup(name, ...) \
-	_l3_setup(metamacro_concat(name, __COUNTER__), __VA_ARGS__)
+	_l3_setup(name, __VA_ARGS__)
 
-#define _l3_setup(uid, declarations, ...) \
-	@protocol _l3_state_protocol_name(uid) <NSObject> \
+#define _l3_setup(name, declarations, ...) \
+	@protocol _l3_state_protocol_name(name) <NSObject> \
 	_l3_declarations_as_properties declarations \
 	@end \
 	\
-	@interface L3Test (_l3_state_protocol_name(uid)) \
-	@property (readonly) L3TestState<_l3_state_protocol_name(uid)> *state; \
+	@interface L3Test (_l3_state_protocol_name(name)) \
+	@property (readonly) L3TestState<_l3_state_protocol_name(name)> *state; \
 	@end \
 	\
-	L3_CONSTRUCTOR void metamacro_concat(L3TestStateConstructor, uid)(void) { \
-		L3Test *suite = [L3Test suiteForFile:@(__FILE__) inImageForAddress:metamacro_concat(L3TestStateConstructor, uid)]; \
-		suite.statePrototype = (id)L3TestStatePrototypeDefine(@protocol(_l3_state_protocol_name(uid)), ^(L3Test *self){ (__VA_ARGS__)(); }); \
+	L3_CONSTRUCTOR void metamacro_concat(L3TestStateConstructor, name)(void) { \
+		L3Test *suite = [L3Test suiteForFile:@(__FILE__) inImageForAddress:metamacro_concat(L3TestStateConstructor, name)]; \
+		suite.statePrototype = (id)L3TestStatePrototypeDefine(@protocol(_l3_state_protocol_name(name)), ^(L3Test *self){ (__VA_ARGS__)(); }); \
 	}
 
 #define _l3_declaration_as_property(_, each) \
@@ -32,8 +32,8 @@
 #define _l3_declarations_as_properties(...) \
 	metamacro_foreach(_l3_declaration_as_property, , __VA_ARGS__)
 
-#define _l3_state_protocol_name(uid) \
-	metamacro_concat(L3TestStateProtocol_line_, metamacro_concat(__LINE__, metamacro_concat(_uid_, uid)))
+#define _l3_state_protocol_name(name) \
+	metamacro_concat(L3TestStateProtocol_, name)
 
 #else // defined(L3_INCLUDE_TESTS)
 
