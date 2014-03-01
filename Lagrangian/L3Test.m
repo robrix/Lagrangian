@@ -141,15 +141,6 @@ static inline NSString *L3PathForImageWithAddress(void(*address)(void)) {
 }
 
 
-l3_test(@selector(addObject:), ^{
-	NSMutableArray *array = [NSMutableArray new];
-	[array addObject:@0];
-	
-	l3_expect(array.count).to.equal(@1);
-	l3_expect(array.lastObject).to.equal(@0);
-})
-
-
 #pragma mark L3TestVisitor
 
 -(id)acceptVisitor:(id<L3TestVisitor>)visitor parents:(NSArray *)parents context:(id)context {
@@ -174,6 +165,12 @@ NSString *L3TestSymbolForFunction(L3FunctionTestSubject subject) {
 	}
 	return symbol;
 }
+
+l3_addTestSubjectTypeWithFunction(L3TestSymbolForFunction)
+l3_test(&L3TestSymbolForFunction, ^{
+	NSString *symbol = L3TestSymbolForFunction((L3FunctionTestSubject)L3TestSymbolForFunction);
+	l3_expect(symbol).to.equal(@"L3TestSymbolForFunction");
+})
 
 L3BlockFunction L3TestFunctionForBlock(L3BlockTestSubject subject) {
 	return L3BlockGetFunction(subject);
