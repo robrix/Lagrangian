@@ -16,16 +16,18 @@
 	@protocol _l3_state_protocol_name(uid) <NSObject> \
 	_l3_declarations_as_properties declarations \
 	@end \
+	\
 	@interface L3Test (_l3_state_protocol_name(uid)) \
-	@property (nonatomic, readonly) L3TestState<_l3_state_protocol_name(uid)> *state; \
+	@property (readonly) L3TestState<_l3_state_protocol_name(uid)> *state; \
 	@end \
+	\
 	L3_CONSTRUCTOR void metamacro_concat(L3TestStateConstructor, uid)(void) { \
 		L3Test *suite = [L3Test suiteForFile:@(__FILE__) inImageForAddress:metamacro_concat(L3TestStateConstructor, uid)]; \
 		suite.statePrototype = (id)L3TestStatePrototypeDefine(@protocol(_l3_state_protocol_name(uid)), ^(L3Test *self){ (__VA_ARGS__)(); }); \
 	}
 
 #define _l3_declaration_as_property(_, each) \
-	@property (nonatomic) each; \
+	@property each; \
 
 #define _l3_declarations_as_properties(...) \
 	metamacro_foreach(_l3_declaration_as_property, , __VA_ARGS__)
@@ -54,12 +56,12 @@ typedef void(^L3TestStateBlock)(L3Test *self);
 
 @interface L3TestState : NSObject
 
-@property (nonatomic, readonly) Protocol *stateProtocol;
+@property (readonly) Protocol *stateProtocol;
 
-@property (nonatomic, readonly) NSMutableDictionary *properties;
+@property (readonly) NSMutableDictionary *properties;
 
 -(void)setUpWithTest:(L3Test *)test;
-@property (nonatomic, readonly) L3TestStateBlock setUpBlock;
+@property (readonly) L3TestStateBlock setUpBlock;
 
 @end
 

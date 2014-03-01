@@ -54,15 +54,15 @@ L3_EXTERN NSString * const L3ExpectationErrorKey;
 +(instancetype)testWithSourceReference:(id<L3SourceReference>)sourceReference block:(L3TestBlock)block;
 -(instancetype)initWithSourceReference:(id<L3SourceReference>)sourceReference block:(L3TestBlock)block;
 
-@property (nonatomic, readonly) id<L3SourceReference> sourceReference;
+@property (readonly) id<L3SourceReference> sourceReference;
 
-@property (nonatomic, readonly) NSArray *expectations;
+@property (readonly) NSArray *expectations;
 -(void)addExpectation:(id<L3Expectation>)expectation;
 
-@property (nonatomic, readonly) NSArray *children;
+@property (readonly) NSArray *children;
 -(void)addChild:(L3Test *)test;
 
-@property (nonatomic) L3TestStatePrototype *statePrototype;
+@property L3TestStatePrototype *statePrototype;
 
 -(void)setUp;
 -(void)tearDown;

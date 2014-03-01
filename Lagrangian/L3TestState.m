@@ -3,10 +3,7 @@
 #import <objc/runtime.h>
 
 l3_setup((NSNumber *flag), ^{
-	NSLog(@"about to set the flag");
-	[self self];
 	self.state.flag = @YES;
-	[self self];
 })
 
 l3_test("l3_setup", ^{
@@ -15,16 +12,16 @@ l3_test("l3_setup", ^{
 
 @protocol L3TestStateProtocolTest <NSObject>
 
-@property (nonatomic) NSString *string;
-@property (nonatomic) CGFloat floatValue;
-@property (nonatomic) NSFastEnumerationState fastEnumerationState;
+@property NSString *string;
+@property CGFloat floatValue;
+@property NSFastEnumerationState fastEnumerationState;
 
 @end
 
 
 @interface L3TestState ()
 
-@property (nonatomic, readonly) NSMutableDictionary *propertyNamesBySelectorString;
+@property (readonly) NSMutableDictionary *propertyNamesBySelectorString;
 
 @end
 
@@ -214,8 +211,8 @@ static inline bool L3TestStateTypeStringRepresentsObject(const char *type) {
 
 @interface L3TestStatePrototype ()
 
-@property (nonatomic, readonly) Protocol *stateProtocol;
-@property (nonatomic, readonly) L3TestStateBlock setUpBlock;
+@property (readonly) Protocol *stateProtocol;
+@property (readonly) L3TestStateBlock setUpBlock;
 
 @end
 

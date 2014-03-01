@@ -652,6 +652,7 @@
 					"-Wno-c11-extensions",
 					"-Wno-vla",
 					"-Wno-auto-import",
+					"-Wno-custom-atomic-properties",
 				);
 			};
 			name = Debug;
@@ -686,6 +687,7 @@
 					"-Wno-c11-extensions",
 					"-Wno-vla",
 					"-Wno-auto-import",
+					"-Wno-custom-atomic-properties",
 				);
 			};
 			name = Release;

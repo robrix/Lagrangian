@@ -11,14 +11,14 @@ NSString * const L3TestErrorKey = @"L3TestErrorKey";
 
 @interface L3Test ()
 
-@property (nonatomic, readonly) L3TestBlock block;
+@property (readonly) L3TestBlock block;
 
-@property (nonatomic, readonly) NSMutableArray *mutableExpectations;
-@property (nonatomic, readonly) NSMutableArray *mutableChildren;
+@property (readonly) NSMutableArray *mutableExpectations;
+@property (readonly) NSMutableArray *mutableChildren;
 
-@property (nonatomic, copy) L3TestExpectationBlock expectationCallback;
+@property (copy) L3TestExpectationBlock expectationCallback;
 
-@property (nonatomic) L3TestState *state;
+@property L3TestState *state;
 
 @end
 
