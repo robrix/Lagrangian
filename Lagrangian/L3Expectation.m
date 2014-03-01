@@ -85,9 +85,9 @@ typedef bool (^L3PredicateBlock)(L3Predicate *predicate, id subject);
 	return self;
 }
 
-l3_test(@selector(not), ^{
+l3_test(@selector(not)) {
 	l3_expect(@0).not.to.equal(@1);
-})
+}
 
 -(id<L3Expectation>)not {
 	self.inverted = YES;

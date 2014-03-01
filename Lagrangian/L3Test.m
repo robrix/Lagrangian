@@ -167,10 +167,10 @@ NSString *L3TestSymbolForFunction(L3FunctionTestSubject subject) {
 }
 
 l3_addTestSubjectTypeWithFunction(L3TestSymbolForFunction)
-l3_test(&L3TestSymbolForFunction, ^{
+l3_test(&L3TestSymbolForFunction) {
 	NSString *symbol = L3TestSymbolForFunction((L3FunctionTestSubject)L3TestSymbolForFunction);
 	l3_expect(symbol).to.equal(@"L3TestSymbolForFunction");
-})
+}
 
 L3BlockFunction L3TestFunctionForBlock(L3BlockTestSubject subject) {
 	return L3BlockGetFunction(subject);
