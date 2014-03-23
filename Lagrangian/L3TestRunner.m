@@ -90,6 +90,7 @@ L3_CONSTRUCTOR void L3TestRunnerLoader() {
 		return tests;
 	};
 #if TARGET_OS_IPHONE
+	[registeredTests self];
 #else
 	if ([self.class isRunningInApplication]) {
 		__block id observer = [[NSNotificationCenter defaultCenter] addObserverForName:NSApplicationDidFinishLaunchingNotification object:nil queue:self.queue usingBlock:^(NSNotification *note) {
