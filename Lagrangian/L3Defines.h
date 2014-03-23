@@ -59,6 +59,8 @@ metamacro_foreach(l3_box_type_with_expression_literal, ,
 #define l3_box_type_with_NSValue(_, type) \
 	L3_OVERLOADABLE id L3Box(type v) { return [NSValue valueWithBytes:&v objCType:@encode(__typeof__(v))]; } \
 
+#import <CoreGraphics/CoreGraphics.h>
+
 metamacro_foreach(l3_box_type_with_NSValue, ,
                   NSFastEnumerationState,
                   CGRect, CGSize, CGPoint, CGAffineTransform)
