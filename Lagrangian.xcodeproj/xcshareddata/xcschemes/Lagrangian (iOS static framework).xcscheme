@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D4D47E5F17A0DE6E00B789A4"
-               BuildableName = "Lagrangian.octest"
-               BlueprintName = "Lagrangian"
+               BlueprintIdentifier = "D4CE328518DF698300CADB65"
+               BuildableName = "Lagrangian (iOS Test Stub).xctest"
+               BlueprintName = "Lagrangian (iOS Test Stub)"
                ReferencedContainer = "container:Lagrangian.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -42,9 +42,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D4A5B2C0164B4FAF00338EB4"
-            BuildableName = "lagrangian"
-            BlueprintName = "lagrangian"
+            BlueprintIdentifier = "D473F5CB16DA713E000FCD8D"
+            BuildableName = "libLagrangian.a"
+            BlueprintName = "Lagrangian (iOS static framework)"
             ReferencedContainer = "container:Lagrangian.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
