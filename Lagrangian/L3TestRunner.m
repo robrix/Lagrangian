@@ -145,7 +145,7 @@ L3_CONSTRUCTOR void L3TestRunnerLoader() {
 }
 
 -(NSString *)cardinalizeNoun:(NSString *)noun forCount:(NSInteger)count {
-	return [NSString stringWithFormat:@"%li %@%@", (unsigned long)count, noun, count == 1? @"" : @"s"];
+	return [NSString stringWithFormat:@"%li %@%@", (long)count, noun, count == 1? @"" : @"s"];
 }
 
 -(NSString *)formatStringAsTestName:(NSString *)string {
