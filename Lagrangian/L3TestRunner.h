@@ -30,6 +30,8 @@ L3_EXTERN NSString * const L3TestRunnerSubjectEnvironmentVariableName;
 +(bool)shouldRunTestsAtLaunch;
 +(bool)isRunningInApplication;
 
+-(void)runAtLaunch;
+
 -(void)enqueueTests:(NSArray *)tests;
 -(void)enqueueTest:(L3Test *)test;
 
