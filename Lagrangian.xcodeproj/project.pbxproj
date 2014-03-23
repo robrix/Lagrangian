@@ -553,12 +553,9 @@
 		D473F5D716DA713E000FCD8D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
-				DSTROOT = /tmp/Lagrangian__iOS_static_framework_.dst;
+				DSTROOT = /tmp/Lagrangian.dst;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Lagrangian;
@@ -572,12 +569,9 @@
 		D473F5D816DA713E000FCD8D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
-				DSTROOT = /tmp/Lagrangian__iOS_static_framework_.dst;
+				DSTROOT = /tmp/Lagrangian.dst;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Lagrangian;
@@ -585,7 +579,6 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				STRIP_STYLE = "non-global";
-				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
