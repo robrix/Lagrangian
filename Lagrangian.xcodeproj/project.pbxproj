@@ -29,8 +29,8 @@
 		D473F5E616DA71ED000FCD8D /* Lagrangian.h in Headers */ = {isa = PBXBuildFile; fileRef = D4AC431E1648B5D300C0A25B /* Lagrangian.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D473F5EA16DA71ED000FCD8D /* L3SourceReference.h in Headers */ = {isa = PBXBuildFile; fileRef = D457D677165094F100340DAC /* L3SourceReference.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D473F5EF16DA71ED000FCD8D /* L3TestRunner.h in Headers */ = {isa = PBXBuildFile; fileRef = D4BC3A5D164D483E003AD167 /* L3TestRunner.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D4A5092E18DFE46D0030A470 /* L3TestSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = D4A5092C18DFE46D0030A470 /* L3TestSuite.h */; };
-		D4A5092F18DFE46D0030A470 /* L3TestSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = D4A5092C18DFE46D0030A470 /* L3TestSuite.h */; };
+		D4A5092E18DFE46D0030A470 /* L3TestSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = D4A5092C18DFE46D0030A470 /* L3TestSuite.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D4A5092F18DFE46D0030A470 /* L3TestSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = D4A5092C18DFE46D0030A470 /* L3TestSuite.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4A5093018DFE46D0030A470 /* L3TestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = D4A5092D18DFE46D0030A470 /* L3TestSuite.m */; };
 		D4A5093118DFE46D0030A470 /* L3TestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = D4A5092D18DFE46D0030A470 /* L3TestSuite.m */; };
 		D4A5B2C4164B4FAF00338EB4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4A5B2C3164B4FAF00338EB4 /* Foundation.framework */; };
