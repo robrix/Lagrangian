@@ -18,7 +18,6 @@ l3_setup(L3Test, (L3Test *test)) {
 @property (readonly) L3TestFunction function;
 
 @property (readonly) NSMutableArray *mutableExpectations;
-@property (readonly) NSMutableArray *mutableChildren;
 
 @property (copy) L3TestExpectationBlock expectationCallback;
 
@@ -39,7 +38,6 @@ l3_setup(L3Test, (L3Test *test)) {
 		_function = function;
 		
 		_mutableExpectations = [NSMutableArray new];
-		_mutableChildren = [NSMutableArray new];
 	}
 	return self;
 }
@@ -69,12 +67,26 @@ l3_setup(L3Test, (L3Test *test)) {
 }
 
 -(void)expectation:(id<L3Expectation>)expectation producedResult:(id<L3TestResult>)result {
-	if (self.expectationCallback)
-		self.expectationCallback(expectation, result);
+	if (self.expectationCallback) self.expectationCallback(expectation, result);
+	else {
+		[self recordFailureWithDescription:result.observationString inFile:expectation.subjectReference.file atLine:expectation.subjectReference.line expected:result.exception != nil];
+	}
 }
 
 -(void)failWithException:(NSException *)exception {
 	[self expectation:nil producedResult:L3TestResultCreateWithException(exception)];
+}
+
+
+#pragma mark XCTest
+
+-(void)performTest:(XCTestRun *)run {
+	[super performTest:run];
+	[run start];
+	
+	if (self.function) self.function(self);
+	
+	[run stop];
 }
 
 
