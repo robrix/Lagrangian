@@ -671,11 +671,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				DSTROOT = /tmp/Lagrangian.dst;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				OTHER_LDFLAGS = "-ObjC";
+				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				PRODUCT_NAME = Lagrangian;
 				PUBLIC_HEADERS_FOLDER_PATH = "$(PRODUCT_NAME) Headers";
 				SDKROOT = iphoneos;
@@ -690,11 +686,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				DSTROOT = /tmp/Lagrangian.dst;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				OTHER_LDFLAGS = "-ObjC";
+				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				PRODUCT_NAME = Lagrangian;
 				PUBLIC_HEADERS_FOLDER_PATH = "$(PRODUCT_NAME) Headers";
 				SDKROOT = iphoneos;
