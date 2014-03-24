@@ -1,6 +1,6 @@
 //  Copyright (c) 2014 Rob Rix. All rights reserved.
 
-#import <XCTest/XCTestCase.h>
+#import <XCTest/XCTest.h>
 #import <Lagrangian/L3TestRunner.h>
 
 @interface L3XCTest : XCTest
@@ -13,16 +13,9 @@
 }
 
 -(void)performTest:(XCTestRun *)run {
-//	[run start];
-//	[super performTest:run];
-	
 	L3TestRunner *runner = [L3TestRunner new];
 	[runner runAtLaunch];
 	[runner waitForTestsToComplete];
-	
-	// accumulate stuff into the run
-	
-//	[run stop];
 }
 
 @end
