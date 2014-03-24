@@ -43,8 +43,8 @@
 
 -(NSString *)description {
 	return self.subject?
-		[NSString stringWithFormat:@"%@ @ %@:%lu (%@ = %@)", super.description, self.file, self.line, self.subjectSource, self.subject]
-	:	[NSString stringWithFormat:@"%@ @ %@:%lu", super.description, self.file, self.line];
+		[NSString stringWithFormat:@"%@ @ %@:%lu (%@ = %@)", super.description, self.file, (unsigned long)self.line, self.subjectSource, self.subject]
+	:	[NSString stringWithFormat:@"%@ @ %@:%lu", super.description, self.file, (unsigned long)self.line];
 }
 
 @end

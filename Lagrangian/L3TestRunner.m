@@ -3,7 +3,9 @@
 #import "L3Test.h"
 #import "L3TestRunner.h"
 
-#if !TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
+#else
 #import <Cocoa/Cocoa.h>
 #endif
 
@@ -38,13 +40,13 @@ NSString * const L3TestRunnerSubjectEnvironmentVariableName = @"L3_TEST_RUNNER_S
 }
 
 +(bool)isRunningInApplication {
-#if TARGET_OS_IPHONE
-	return YES;
-#else
 	return
+#if TARGET_OS_IPHONE
+		([UIApplication class] != nil)
+#else
 		([NSApplication class] != nil)
-	&&	[[NSBundle mainBundle].bundlePath.pathExtension isEqualToString:@"app"];
 #endif
+	&&	[[NSBundle mainBundle].bundlePath.pathExtension isEqualToString:@"app"];
 }
 
 +(NSString *)subjectPath {
@@ -89,29 +91,36 @@ L3_CONSTRUCTOR void L3TestRunnerLoader() {
 		}
 		return tests;
 	};
-#if TARGET_OS_IPHONE
-#else
+	
 	if ([self.class isRunningInApplication]) {
-		__block id observer = [[NSNotificationCenter defaultCenter] addObserverForName:NSApplicationDidFinishLaunchingNotification object:nil queue:self.queue usingBlock:^(NSNotification *note) {
+		NSString *notificationName;
+		void(^terminate)(void);
+#if TARGET_OS_IPHONE
+		notificationName = UIApplicationDidFinishLaunchingNotification;
+#else
+		notificationName = NSApplicationDidFinishLaunchingNotification;
+		terminate = ^{
+			[[NSApplication sharedApplication] terminate:nil];
+		};
+#endif
+		__block id observer = [[NSNotificationCenter defaultCenter] addObserverForName:notificationName object:nil queue:self.queue usingBlock:^(NSNotification *note) {
 			
 			[self enqueueTests:registeredTests()];
 			
-			[[NSNotificationCenter defaultCenter] removeObserver:observer name:NSApplicationDidFinishLaunchingNotification object:nil];
+			[[NSNotificationCenter defaultCenter] removeObserver:observer name:notificationName object:nil];
 			
-			[self.queue addOperationWithBlock:^{
-				[[NSApplication sharedApplication] terminate:nil];
-			}];
+			if (terminate) [self.queue addOperationWithBlock:terminate];
 		}];
 	} else {
 		[self.queue addOperationWithBlock:^{
 			[self enqueueTests:registeredTests()];
-			
-			[self.queue addOperationWithBlock:^__attribute__((noreturn)){
+#if !TARGET_OS_IPHONE
+			[self.queue addOperationWithBlock:^__attribute__((noreturn)) {
 				exit(self.statistics.assertionFailureCount == 0);
 			}];
+#endif
 		}];
 	}
-#endif
 }
 
 -(void)enqueueTests:(NSArray *)tests {
@@ -144,7 +153,7 @@ L3_CONSTRUCTOR void L3TestRunnerLoader() {
 }
 
 -(NSString *)cardinalizeNoun:(NSString *)noun forCount:(NSInteger)count {
-	return [NSString stringWithFormat:@"%li %@%@", count, noun, count == 1? @"" : @"s"];
+	return [NSString stringWithFormat:@"%li %@%@", (long)count, noun, count == 1? @"" : @"s"];
 }
 
 -(NSString *)formatStringAsTestName:(NSString *)string {
