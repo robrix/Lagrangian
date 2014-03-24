@@ -55,6 +55,9 @@
 		D4CE329118DF698300CADB65 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D4CE328F18DF698300CADB65 /* InfoPlist.strings */; };
 		D4CE329C18DF6A4300CADB65 /* L3TestStub.m in Sources */ = {isa = PBXBuildFile; fileRef = D4CE329B18DF6A4300CADB65 /* L3TestStub.m */; };
 		D4CE329D18DF6A6D00CADB65 /* libLagrangian.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D473F5CC16DA713E000FCD8D /* libLagrangian.a */; };
+		D4CE329F18DFB52900CADB65 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4CE329E18DFB52900CADB65 /* XCTest.framework */; };
+		D4CE32A018DFB53200CADB65 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4CE329E18DFB52900CADB65 /* XCTest.framework */; };
+		D4CE32A218DFB53C00CADB65 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4CE32A118DFB53C00CADB65 /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D4D5445D17B05571001FF25F /* lagrangian in Resources */ = {isa = PBXBuildFile; fileRef = D4A5B2C1164B4FAF00338EB4 /* lagrangian */; };
 		D4FEC500179F4E0700356BA3 /* L3TestRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = D4BC3A5E164D483E003AD167 /* L3TestRunner.m */; };
 		D4FEC502179F4E0900356BA3 /* L3TestRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = D4BC3A5E164D483E003AD167 /* L3TestRunner.m */; };
@@ -137,6 +140,8 @@
 		D4CE328E18DF698300CADB65 /* Lagrangian (iOS Test Stub)-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Lagrangian (iOS Test Stub)-Info.plist"; sourceTree = "<group>"; };
 		D4CE329018DF698300CADB65 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D4CE329B18DF6A4300CADB65 /* L3TestStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = L3TestStub.m; sourceTree = "<group>"; };
+		D4CE329E18DFB52900CADB65 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		D4CE32A118DFB53C00CADB65 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		D4D47E6017A0DE6E00B789A4 /* Lagrangian.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Lagrangian.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -145,6 +150,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4CE32A218DFB53C00CADB65 /* UIKit.framework in Frameworks */,
+				D4CE329F18DFB52900CADB65 /* XCTest.framework in Frameworks */,
 				D473F5CE16DA713E000FCD8D /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -161,6 +168,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4CE32A018DFB53200CADB65 /* XCTest.framework in Frameworks */,
 				D4B62B8C16A15A2C00E42C84 /* Cocoa.framework in Frameworks */,
 				D4B62B6F16A15A0400E42C84 /* Foundation.framework in Frameworks */,
 			);
@@ -294,6 +302,8 @@
 		D4AC43141648B5D300C0A25B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D4CE32A118DFB53C00CADB65 /* UIKit.framework */,
+				D4CE329E18DFB52900CADB65 /* XCTest.framework */,
 				D473F57116D8CD17000FCD8D /* iOS */,
 				D473F57216D8CD21000FCD8D /* OS X */,
 				D4B62B4D16A1581700E42C84 /* Cocoa.framework */,
@@ -661,7 +671,10 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				DSTROOT = /tmp/Lagrangian.dst;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Lagrangian;
 				PUBLIC_HEADERS_FOLDER_PATH = "$(PRODUCT_NAME) Headers";
@@ -677,7 +690,10 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				DSTROOT = /tmp/Lagrangian.dst;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Lagrangian;
 				PUBLIC_HEADERS_FOLDER_PATH = "$(PRODUCT_NAME) Headers";
@@ -803,6 +819,10 @@
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
 				INFOPLIST_FILE = "Lagrangian/Lagrangian-Info.plist";
 				PRODUCT_NAME = Lagrangian;
 				TEST_RIG = "$(BUILT_PRODUCTS_DIR)/lagrangian";
@@ -815,6 +835,10 @@
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
 				INFOPLIST_FILE = "Lagrangian/Lagrangian-Info.plist";
 				PRODUCT_NAME = Lagrangian;
 				TEST_RIG = "$(BUILT_PRODUCTS_DIR)/lagrangian";
