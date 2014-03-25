@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D4D47E5F17A0DE6E00B789A4"
-               BuildableName = "Lagrangian.octest"
-               BlueprintName = "Lagrangian"
+               BlueprintIdentifier = "D46D2B4718E112360065701D"
+               BuildableName = "Lagrangian (Mac Tests).xctest"
+               BlueprintName = "Lagrangian (Mac Tests)"
                ReferencedContainer = "container:Lagrangian.xcodeproj">
             </BuildableReference>
          </TestableReference>
