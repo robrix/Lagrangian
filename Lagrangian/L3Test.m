@@ -30,7 +30,7 @@ l3_setup(L3Test, (L3Test *test)) {}
 }
 
 -(instancetype)initWithSourceReference:(id<L3SourceReference>)sourceReference function:(L3TestFunction)function {
-	if ((self = [super init])) {
+	if ((self = [super initWithName:[sourceReference.subject description]])) {
 		_sourceReference = sourceReference;
 		
 		_function = function;
@@ -67,7 +67,6 @@ l3_setup(L3Test, (L3Test *test)) {}
 -(void)expectation:(id<L3Expectation>)expectation producedResult:(id<L3TestResult>)result {
 	if (self.expectationCallback) self.expectationCallback(expectation, result);
 	else {
-		[self recordFailureWithDescription:result.observationString inFile:expectation.subjectReference.file atLine:expectation.subjectReference.line expected:result.exception != nil];
 	}
 }
 

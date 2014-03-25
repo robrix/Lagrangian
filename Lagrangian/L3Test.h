@@ -53,7 +53,7 @@ L3_EXTERN NSString * const L3ExpectationErrorKey;
 @protocol L3TestVisitor;
 @class L3TestStatePrototype;
 
-@interface L3Test : XCTestCase
+@interface L3Test : XCTestSuite
 
 +(instancetype)testWithSourceReference:(id<L3SourceReference>)sourceReference function:(L3TestFunction)function;
 -(instancetype)initWithSourceReference:(id<L3SourceReference>)sourceReference function:(L3TestFunction)function;
