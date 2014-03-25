@@ -11,6 +11,12 @@ NSString * const L3TestErrorKey = @"L3TestErrorKey";
 
 l3_setup(L3Test, (L3Test *test)) {}
 
+@interface L3ExpectationTestCase : XCTestCase
+
++(instancetype)testCaseWithExpectation:(id<L3Expectation>)expectation result:(id<L3TestResult>)result inTest:(L3Test *)test;
+
+@end
+
 @interface L3Test ()
 
 @property (readonly) L3TestFunction function;
@@ -67,6 +73,7 @@ l3_setup(L3Test, (L3Test *test)) {}
 -(void)expectation:(id<L3Expectation>)expectation producedResult:(id<L3TestResult>)result {
 	if (self.expectationCallback) self.expectationCallback(expectation, result);
 	else {
+		[self addTest:[L3ExpectationTestCase testCaseWithExpectation:expectation result:result inTest:self]];
 	}
 }
 
@@ -121,3 +128,57 @@ l3_test(&L3TestSymbolForFunction) {
 L3BlockFunction L3TestFunctionForBlock(L3BlockTestSubject subject) {
 	return L3BlockGetFunction(subject);
 }
+
+
+@implementation L3ExpectationTestCase {
+	id<L3Expectation> _expectation;
+	id<L3TestResult> _result;
+	__weak L3Test *_test;
+}
+
++(instancetype)testCaseWithExpectation:(id<L3Expectation>)expectation result:(id<L3TestResult>)result inTest:(L3Test *)test {
+	return [[self alloc] initWithExpectation:expectation result:result inTest:test];
+}
+
+-(instancetype)initWithExpectation:(id<L3Expectation>)expectation result:(id<L3TestResult>)result inTest:(L3Test *)test {
+	if ((self = [super init])) {
+		_expectation = expectation;
+		_result = result;
+		_test = test;
+	}
+	return self;
+}
+
+
+#pragma mark Formatting
+
+-(NSString *)cardinalizeNoun:(NSString *)noun forCount:(NSInteger)count {
+	return [NSString stringWithFormat:@"%li %@%@", (long)count, noun, count == 1? @"" : @"s"];
+}
+
+-(NSString *)formatStringAsTestName:(NSString *)string {
+	NSMutableString *mutable = [string mutableCopy];
+	[[NSRegularExpression regularExpressionWithPattern:@"[^\\w]+" options:NSRegularExpressionCaseInsensitive error:NULL] replaceMatchesInString:mutable options:NSMatchingWithTransparentBounds range:(NSRange){0, mutable.length} withTemplate:@"_"];
+	return [mutable copy];
+}
+
+-(NSString *)caseNameWithSuiteName:(NSString *)suiteName assertivePhrase:(NSString *)phrase {
+	return [NSString stringWithFormat:@"-[%@ %@]", suiteName, [self formatStringAsTestName:phrase]];
+}
+
+
+#pragma mark XCTest
+
+-(NSString *)name {
+	return [self caseNameWithSuiteName:[self formatStringAsTestName:_test.name] assertivePhrase:_result.hypothesisString];
+}
+
+-(void)performTest:(XCTestRun *)run {
+	[run start];
+	if (!_result.wasMet) {
+		[self recordFailureWithDescription:_result.observationString inFile:_expectation.subjectReference.file atLine:_expectation.subjectReference.line expected:_result.exception != nil];
+	}
+	[run stop];
+}
+
+@end
