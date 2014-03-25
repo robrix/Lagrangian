@@ -9,16 +9,19 @@ NSString * const L3ErrorDomain = @"com.antitypical.lagrangian";
 NSString * const L3ExpectationErrorKey = @"L3ExpectationErrorKey";
 NSString * const L3TestErrorKey = @"L3TestErrorKey";
 
-l3_setup(L3Test, (L3Test *test)) {
-	
-}
+l3_setup(L3Test, (L3Test *test)) {}
+
+@interface L3ExpectationTestCase : XCTestCase
+
++(instancetype)testCaseWithExpectation:(id<L3Expectation>)expectation result:(id<L3TestResult>)result inTest:(L3Test *)test;
+
+@end
 
 @interface L3Test ()
 
 @property (readonly) L3TestFunction function;
 
 @property (readonly) NSMutableArray *mutableExpectations;
-@property (readonly) NSMutableArray *mutableChildren;
 
 @property (copy) L3TestExpectationBlock expectationCallback;
 
@@ -28,71 +31,17 @@ l3_setup(L3Test, (L3Test *test)) {
 
 @implementation L3Test
 
-+(NSMutableDictionary *)mutableRegisteredSuites {
-	static NSMutableDictionary *suites = nil;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		suites = [NSMutableDictionary new];
-	});
-	return suites;
-}
-
-+(NSDictionary *)registeredSuites {
-	return self.mutableRegisteredSuites;
-}
-
-+(instancetype)suiteForFile:(NSString *)file initializer:(L3Test *(^)())block {
-	L3Test *suite = self.mutableRegisteredSuites[file];
-	if (!suite) {
-		suite = block? block() : nil;
-		if (suite) {
-			self.mutableRegisteredSuites[file] = suite;
-		}
-	}
-	return suite;
-}
-
-+(instancetype)registeredSuiteForFile:(NSString *)file {
-	return self.mutableRegisteredSuites[file];
-}
-
-static inline NSString *L3PathForImageWithAddress(void(*address)(void)) {
-	NSString *path = nil;
-	Dl_info info = {0};
-	if (dladdr((void *)address, &info)) {
-		path = @(info.dli_fname);
-	}
-	return path;
-}
-
-+(instancetype)suiteForImageWithAddress:(void(*)(void))address {
-	NSString *file = L3PathForImageWithAddress(address);
-	return [self suiteForFile:file initializer:^L3Test *{
-		return [[self alloc] initWithSourceReference:L3SourceReferenceCreate(@0, file, 0, nil, file.lastPathComponent) function:NULL];
-	}];
-}
-
-+(instancetype)suiteForFile:(NSString *)file inImageForAddress:(void(*)(void))address {
-	return [self suiteForFile:file initializer:^L3Test *{
-		L3Test *suite = [[self alloc] initWithSourceReference:L3SourceReferenceCreate(@0, file, 0, nil, [file.lastPathComponent stringByDeletingPathExtension]) function:NULL];
-		L3Test *imageSuite = [self suiteForImageWithAddress:address];
-		[imageSuite addChild:suite];
-		return suite;
-	}];
-}
-
 +(instancetype)testWithSourceReference:(id<L3SourceReference>)sourceReference function:(L3TestFunction)function {
 	return [[self alloc] initWithSourceReference:sourceReference function:function];
 }
 
 -(instancetype)initWithSourceReference:(id<L3SourceReference>)sourceReference function:(L3TestFunction)function {
-	if ((self = [super init])) {
+	if ((self = [super initWithName:[sourceReference.subject description]])) {
 		_sourceReference = sourceReference;
 		
 		_function = function;
 		
 		_mutableExpectations = [NSMutableArray new];
-		_mutableChildren = [NSMutableArray new];
 	}
 	return self;
 }
@@ -107,18 +56,11 @@ static inline NSString *L3PathForImageWithAddress(void(*address)(void)) {
 }
 
 
--(NSArray *)children {
-	return self.mutableChildren;
-}
-
--(void)addChild:(L3Test *)test {
-	[self.mutableChildren addObject:test];
-}
-
-
 -(void)setUp {
 	self.state = [self.statePrototype createState];
 	[self.state setUpWithTest:self];
+	
+	if (self.function) self.function(self);
 }
 
 -(void)tearDown {
@@ -131,8 +73,10 @@ static inline NSString *L3PathForImageWithAddress(void(*address)(void)) {
 }
 
 -(void)expectation:(id<L3Expectation>)expectation producedResult:(id<L3TestResult>)result {
-	if (self.expectationCallback)
-		self.expectationCallback(expectation, result);
+	if (self.expectationCallback) self.expectationCallback(expectation, result);
+	else {
+		[self addTest:[L3ExpectationTestCase testCaseWithExpectation:expectation result:result inTest:self]];
+	}
 }
 
 -(void)failWithException:(NSException *)exception {
@@ -143,14 +87,7 @@ static inline NSString *L3PathForImageWithAddress(void(*address)(void)) {
 #pragma mark L3TestVisitor
 
 -(id)acceptVisitor:(id<L3TestVisitor>)visitor parents:(NSArray *)parents context:(id)context {
-	NSMutableArray *lazyChildren = self.children.count? [NSMutableArray new] : nil;
-	NSArray *childParents = parents?
-		[parents arrayByAddingObject:self]
-	:	@[self];
-	for (L3Test *child in self.children) {
-		[lazyChildren addObject:^{ return [child acceptVisitor:visitor parents:childParents context:context]; }];
-	}
-	return [visitor visitTest:self parents:parents lazyChildren:lazyChildren context:context];
+	return [visitor visitTest:self parents:parents lazyChildren:@[] context:context];
 }
 
 
@@ -181,3 +118,57 @@ l3_test(&L3TestSymbolForFunction) {
 L3BlockFunction L3TestFunctionForBlock(L3BlockTestSubject subject) {
 	return L3BlockGetFunction(subject);
 }
+
+
+@implementation L3ExpectationTestCase {
+	id<L3Expectation> _expectation;
+	id<L3TestResult> _result;
+	__weak L3Test *_test;
+}
+
++(instancetype)testCaseWithExpectation:(id<L3Expectation>)expectation result:(id<L3TestResult>)result inTest:(L3Test *)test {
+	return [[self alloc] initWithExpectation:expectation result:result inTest:test];
+}
+
+-(instancetype)initWithExpectation:(id<L3Expectation>)expectation result:(id<L3TestResult>)result inTest:(L3Test *)test {
+	if ((self = [super init])) {
+		_expectation = expectation;
+		_result = result;
+		_test = test;
+	}
+	return self;
+}
+
+
+#pragma mark Formatting
+
+-(NSString *)cardinalizeNoun:(NSString *)noun forCount:(NSInteger)count {
+	return [NSString stringWithFormat:@"%li %@%@", (long)count, noun, count == 1? @"" : @"s"];
+}
+
+-(NSString *)formatStringAsTestName:(NSString *)string {
+	NSMutableString *mutable = [string mutableCopy];
+	[[NSRegularExpression regularExpressionWithPattern:@"[^\\w]+" options:NSRegularExpressionCaseInsensitive error:NULL] replaceMatchesInString:mutable options:NSMatchingWithTransparentBounds range:(NSRange){0, mutable.length} withTemplate:@"_"];
+	return [mutable copy];
+}
+
+-(NSString *)caseNameWithSuiteName:(NSString *)suiteName assertivePhrase:(NSString *)phrase {
+	return [NSString stringWithFormat:@"-[%@ %@]", suiteName, [self formatStringAsTestName:phrase]];
+}
+
+
+#pragma mark XCTest
+
+-(NSString *)name {
+	return [self caseNameWithSuiteName:[self formatStringAsTestName:_test.name] assertivePhrase:_result.hypothesisString];
+}
+
+-(void)performTest:(XCTestRun *)run {
+	[run start];
+	if (!_result.wasMet) {
+		[self recordFailureWithDescription:_result.observationString inFile:_expectation.subjectReference.file atLine:_expectation.subjectReference.line expected:_result.exception != nil];
+	}
+	[run stop];
+}
+
+@end

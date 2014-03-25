@@ -1,6 +1,7 @@
 #import "L3Expectation.h"
 #import "L3SourceReference.h"
 #import "L3Test.h"
+#import "L3TestSuite.h"
 #import "L3TestRunner.h"
 
 #if TARGET_OS_IPHONE
@@ -83,9 +84,9 @@ L3_CONSTRUCTOR void L3TestRunnerLoader() {
 
 -(void)runAtLaunch {
 	NSArray *(^registeredTests)(void) = ^{
-		NSArray *tests = [[L3Test registeredSuites] allValues];
+		NSArray *tests = [[L3TestSuite registeredSuites] allValues];
 		if ([self.class subjectPath]) {
-			L3Test *suite = [L3Test registeredSuiteForFile:[self.class subjectPath]];
+			L3TestSuite *suite = [L3TestSuite registeredSuiteForFile:[self.class subjectPath]];
 			if (suite)
 				tests = @[suite];
 		}
@@ -166,7 +167,7 @@ L3_CONSTRUCTOR void L3TestRunnerLoader() {
 	return [NSString stringWithFormat:@"-[%@ %@]", suiteName, [self formatStringAsTestName:phrase]];
 }
 
--(id)visitTest:(L3Test *)test parents:(NSArray *)parents lazyChildren:(NSMutableArray *)lazyChildren context:(id)context {
+-(id)visitTest:(L3Test *)test parents:(NSArray *)parents lazyChildren:(NSArray *)lazyChildren context:(id)context {
 	L3TestStatistics *statistics = [L3TestStatistics new];
 	NSString *suiteName = [self formatStringAsTestName:[test.sourceReference.subject description]];
 	[self write:@"Test Suite '%@' started at %@\n", suiteName, statistics.startDate];

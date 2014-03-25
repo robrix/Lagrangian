@@ -8,6 +8,7 @@
 #import <Lagrangian/L3Expectation.h>
 
 #import <Lagrangian/L3Test.h>
+#import <Lagrangian/L3TestSuite.h>
 #import <Lagrangian/L3TestRunner.h>
 #import <Lagrangian/L3TestState.h>
 

@@ -38,7 +38,7 @@
 #define _l3_state_construct(name) \
 	L3_INLINE void _l3_setup_function_name(name) (L3Test *self); \
 	L3_CONSTRUCTOR void _l3_state_constructor_name(name) (void) { \
-		L3Test *suite = [L3Test suiteForFile:@(__FILE__) inImageForAddress:_l3_state_constructor_name(name)]; \
+		L3TestSuite *suite = [L3TestSuite suiteForFile:@(__FILE__) inImageForAddress:_l3_state_constructor_name(name)]; \
 		suite.statePrototype = [L3TestStatePrototype statePrototypeWithProtocol:@protocol(_l3_state_protocol_name(name)) setupFunction:_l3_setup_function_name(name)]; \
 	} \
 	\
