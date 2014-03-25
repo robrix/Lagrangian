@@ -75,6 +75,13 @@ static inline NSString *L3PathForImageWithAddress(void(*address)(void)) {
 
 
 
+#pragma mark XCTestSuite
+
+-(NSString *)name {
+	return super.name;
+}
+
+
 -(void)run:(id)_ {}
 
 
