@@ -9,9 +9,7 @@ NSString * const L3ErrorDomain = @"com.antitypical.lagrangian";
 NSString * const L3ExpectationErrorKey = @"L3ExpectationErrorKey";
 NSString * const L3TestErrorKey = @"L3TestErrorKey";
 
-l3_setup(L3Test, (L3Test *test)) {
-	
-}
+l3_setup(L3Test, (L3Test *test)) {}
 
 @interface L3Test ()
 
@@ -81,12 +79,12 @@ l3_setup(L3Test, (L3Test *test)) {
 #pragma mark XCTest
 
 -(void)performTest:(XCTestRun *)run {
-	[super performTest:run];
 	[run start];
 	
 	if (self.function) self.function(self);
 	
 	[run stop];
+	[super performTest:run];
 }
 
 
