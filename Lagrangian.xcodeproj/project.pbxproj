@@ -26,6 +26,7 @@
 		D46D2B4918E112360065701D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4CE329E18DFB52900CADB65 /* XCTest.framework */; };
 		D46D2B5A18E113650065701D /* L3TestStub.m in Sources */ = {isa = PBXBuildFile; fileRef = D46D2B5918E1135C0065701D /* L3TestStub.m */; };
 		D46D2B5B18E113660065701D /* L3TestStub.m in Sources */ = {isa = PBXBuildFile; fileRef = D46D2B5918E1135C0065701D /* L3TestStub.m */; };
+		D46D2B5C18E116B50065701D /* Lagrangian.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4B62B4C16A1581700E42C84 /* Lagrangian.framework */; };
 		D472C847179DC4EC00FD2F41 /* NSException+L3OCUnitCompatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = D472C845179DC4EC00FD2F41 /* NSException+L3OCUnitCompatibility.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D472C849179DC4EC00FD2F41 /* NSException+L3OCUnitCompatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = D472C845179DC4EC00FD2F41 /* NSException+L3OCUnitCompatibility.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D473F5CE16DA713E000FCD8D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D473F5CD16DA713E000FCD8D /* Foundation.framework */; };
@@ -126,6 +127,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D46D2B4918E112360065701D /* XCTest.framework in Frameworks */,
+				D46D2B5C18E116B50065701D /* Lagrangian.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
