@@ -59,6 +59,8 @@ l3_setup(L3Test, (L3Test *test)) {}
 -(void)setUp {
 	self.state = [self.statePrototype createState];
 	[self.state setUpWithTest:self];
+	
+	if (self.function) self.function(self);
 }
 
 -(void)tearDown {
@@ -79,18 +81,6 @@ l3_setup(L3Test, (L3Test *test)) {}
 
 -(void)failWithException:(NSException *)exception {
 	[self expectation:nil producedResult:L3TestResultCreateWithException(exception)];
-}
-
-
-#pragma mark XCTest
-
--(void)performTest:(XCTestRun *)run {
-	[run start];
-	
-	if (self.function) self.function(self);
-	
-	[run stop];
-	[super performTest:run];
 }
 
 
