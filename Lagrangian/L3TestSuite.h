@@ -20,4 +20,7 @@
 
 @property L3TestStatePrototype *statePrototype;
 
+-(instancetype)suiteForFile:(NSString *)file;
+-(instancetype)addSuite:(L3TestSuite *)suite forFile:(NSString *)file;
+
 @end

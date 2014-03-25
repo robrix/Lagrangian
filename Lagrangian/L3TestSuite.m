@@ -5,7 +5,9 @@
 #import "L3SourceReference.h"
 #import <dlfcn.h>
 
-@implementation L3TestSuite
+@implementation L3TestSuite {
+	NSMutableDictionary *_suitesByFile;
+}
 
 +(NSMutableDictionary *)mutableRegisteredSuites {
 	static NSMutableDictionary *suites = nil;
@@ -69,10 +71,21 @@ static inline NSString *L3PathForImageWithAddress(void(*address)(void)) {
 -(instancetype)initWithSourceReference:(id<L3SourceReference>)sourceReference {
 	if ((self = [super initWithName:sourceReference.subject])) {
 		_sourceReference = sourceReference;
+		
+		_suitesByFile = [NSMutableDictionary new];
 	}
 	return self;
 }
 
+
+-(instancetype)suiteForFile:(NSString *)file {
+	return _suitesByFile[file];
+}
+
+-(instancetype)addSuite:(L3TestSuite *)suite forFile:(NSString *)file {
+	[self addTest:suite];
+	return _suitesByFile[file] = suite;
+}
 
 
 #pragma mark XCTestSuite
