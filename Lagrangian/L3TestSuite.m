@@ -1,5 +1,3 @@
-//  Copyright (c) 2014 Rob Rix. All rights reserved.
-
 #import "L3TestSuite.h"
 #import "L3Test.h"
 #import "L3SourceReference.h"
@@ -78,21 +76,6 @@ static inline NSString *L3PathForImageWithAddress(void(*address)(void)) {
 
 -(NSString *)name {
 	return super.name;
-}
-
-
--(void)run:(id)_ {}
-
-
-#pragma mark L3TestVisitor
-
--(id)acceptVisitor:(id<L3TestVisitor>)visitor parents:(NSArray *)parents context:(id)context {
-	NSArray *childParents = parents? [parents arrayByAddingObject:self] : @[ self ];
-	NSMutableArray *lazyChildren = [NSMutableArray new];
-	for (L3Test *test in self.tests) {
-		[lazyChildren addObject:^{ return [test acceptVisitor:visitor parents:childParents context:context]; }];
-	}
-	return [visitor visitTest:(id)self parents:parents lazyChildren:lazyChildren context:context];
 }
 
 @end

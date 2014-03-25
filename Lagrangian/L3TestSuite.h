@@ -1,4 +1,5 @@
-//  Copyright (c) 2014 Rob Rix. All rights reserved.
+#ifndef L3_TEST_SUITE_H
+#define L3_TEST_SUITE_H
 
 #import <XCTest/XCTest.h>
 #import <Lagrangian/L3SourceReference.h>
@@ -24,3 +25,5 @@
 -(instancetype)addSuite:(L3TestSuite *)suite forFile:(NSString *)file;
 
 @end
+
+#endif // L3_TEST_SUITE_H

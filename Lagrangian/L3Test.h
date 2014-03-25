@@ -65,28 +65,10 @@ L3_EXTERN NSString * const L3ExpectationErrorKey;
 
 @property L3TestStatePrototype *statePrototype;
 
--(void)setUp;
--(void)tearDown;
--(void)run:(L3TestExpectationBlock)callback;
-
--(id)acceptVisitor:(id<L3TestVisitor>)visitor parents:(NSArray *)parents context:(id)context;
-
 -(void)expectation:(id<L3Expectation>)expectation producedResult:(id<L3TestResult>)result;
 
 @end
 
-@protocol L3TestDelegate <NSObject>
-
--(void)test:(L3Test *)test expectation:(id<L3Expectation>)expectation;
-
-@end
-
-
-@protocol L3TestVisitor <NSObject>
-
--(id)visitTest:(L3Test *)test parents:(NSArray *)parents lazyChildren:(NSArray *)lazyChildren context:(id)context;
-
-@end
 
 typedef void (*L3FunctionTestSubject)(void *, ...);
 L3_EXTERN NSString *L3TestSymbolForFunction(L3FunctionTestSubject subject);

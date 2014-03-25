@@ -84,13 +84,6 @@ l3_setup(L3Test, (L3Test *test)) {}
 }
 
 
-#pragma mark L3TestVisitor
-
--(id)acceptVisitor:(id<L3TestVisitor>)visitor parents:(NSArray *)parents context:(id)context {
-	return [visitor visitTest:self parents:parents lazyChildren:@[] context:context];
-}
-
-
 #pragma mark NSObject
 
 -(NSString *)description {

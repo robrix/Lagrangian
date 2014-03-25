@@ -28,7 +28,6 @@
 		D473F5CE16DA713E000FCD8D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D473F5CD16DA713E000FCD8D /* Foundation.framework */; };
 		D473F5E616DA71ED000FCD8D /* Lagrangian.h in Headers */ = {isa = PBXBuildFile; fileRef = D4AC431E1648B5D300C0A25B /* Lagrangian.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D473F5EA16DA71ED000FCD8D /* L3SourceReference.h in Headers */ = {isa = PBXBuildFile; fileRef = D457D677165094F100340DAC /* L3SourceReference.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D473F5EF16DA71ED000FCD8D /* L3TestRunner.h in Headers */ = {isa = PBXBuildFile; fileRef = D4BC3A5D164D483E003AD167 /* L3TestRunner.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4A5092E18DFE46D0030A470 /* L3TestSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = D4A5092C18DFE46D0030A470 /* L3TestSuite.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4A5092F18DFE46D0030A470 /* L3TestSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = D4A5092C18DFE46D0030A470 /* L3TestSuite.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4A5093018DFE46D0030A470 /* L3TestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = D4A5092D18DFE46D0030A470 /* L3TestSuite.m */; };
@@ -43,7 +42,6 @@
 		D4B62B6F16A15A0400E42C84 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4B62B5216A1581700E42C84 /* Foundation.framework */; };
 		D4B62B7416A15A1900E42C84 /* Lagrangian.h in Headers */ = {isa = PBXBuildFile; fileRef = D4AC431E1648B5D300C0A25B /* Lagrangian.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4B62B7816A15A1900E42C84 /* L3SourceReference.h in Headers */ = {isa = PBXBuildFile; fileRef = D457D677165094F100340DAC /* L3SourceReference.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D4B62B7D16A15A1900E42C84 /* L3TestRunner.h in Headers */ = {isa = PBXBuildFile; fileRef = D4BC3A5D164D483E003AD167 /* L3TestRunner.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4B62B8C16A15A2C00E42C84 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4B62B4D16A1581700E42C84 /* Cocoa.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D4BD3F3617B9DFFD00D513D8 /* L3TestState.h in Headers */ = {isa = PBXBuildFile; fileRef = D4BD3F3417B9DFFD00D513D8 /* L3TestState.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4BD3F3717B9DFFD00D513D8 /* L3TestState.h in Headers */ = {isa = PBXBuildFile; fileRef = D4BD3F3417B9DFFD00D513D8 /* L3TestState.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -63,8 +61,6 @@
 		D4CE32A018DFB53200CADB65 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4CE329E18DFB52900CADB65 /* XCTest.framework */; };
 		D4CE32A218DFB53C00CADB65 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4CE32A118DFB53C00CADB65 /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D4D5445D17B05571001FF25F /* lagrangian in Resources */ = {isa = PBXBuildFile; fileRef = D4A5B2C1164B4FAF00338EB4 /* lagrangian */; };
-		D4FEC500179F4E0700356BA3 /* L3TestRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = D4BC3A5E164D483E003AD167 /* L3TestRunner.m */; };
-		D4FEC502179F4E0900356BA3 /* L3TestRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = D4BC3A5E164D483E003AD167 /* L3TestRunner.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -132,8 +128,6 @@
 		D4B62B5216A1581700E42C84 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D4B62B5516A1581700E42C84 /* Lagrangian-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Lagrangian-Info.plist"; sourceTree = "<group>"; };
 		D4B62B5716A1581700E42C84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		D4BC3A5D164D483E003AD167 /* L3TestRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = L3TestRunner.h; sourceTree = "<group>"; };
-		D4BC3A5E164D483E003AD167 /* L3TestRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = L3TestRunner.m; sourceTree = "<group>"; };
 		D4BD3F3417B9DFFD00D513D8 /* L3TestState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = L3TestState.h; sourceTree = "<group>"; };
 		D4BD3F3517B9DFFD00D513D8 /* L3TestState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = L3TestState.m; sourceTree = "<group>"; };
 		D4BEDF2917A0F10A00DCFF57 /* L3Expectation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = L3Expectation.h; sourceTree = "<group>"; };
@@ -403,7 +397,6 @@
 				D473F5E616DA71ED000FCD8D /* Lagrangian.h in Headers */,
 				D473F5EA16DA71ED000FCD8D /* L3SourceReference.h in Headers */,
 				D472C849179DC4EC00FD2F41 /* NSException+L3OCUnitCompatibility.h in Headers */,
-				D473F5EF16DA71ED000FCD8D /* L3TestRunner.h in Headers */,
 				D4391698179E49C40002EDCA /* L3Defines.h in Headers */,
 				D4391691179E49600002EDCA /* L3Test.h in Headers */,
 				D4BD3F3717B9DFFD00D513D8 /* L3TestState.h in Headers */,
@@ -420,7 +413,6 @@
 				D4248A4018BD9E1100EE3F67 /* metamacros.h in Headers */,
 				D4B62B7416A15A1900E42C84 /* Lagrangian.h in Headers */,
 				D4B62B7816A15A1900E42C84 /* L3SourceReference.h in Headers */,
-				D4B62B7D16A15A1900E42C84 /* L3TestRunner.h in Headers */,
 				D4391696179E49C20002EDCA /* L3Defines.h in Headers */,
 				D439168F179E49600002EDCA /* L3Test.h in Headers */,
 				D472C847179DC4EC00FD2F41 /* NSException+L3OCUnitCompatibility.h in Headers */,
@@ -600,7 +592,6 @@
 				D4B53EA617B2892C00D70297 /* NSException+L3OCUnitCompatibility.m in Sources */,
 				D44AA23C17A56F5B00B9F9B3 /* L3SourceReference.m in Sources */,
 				D4A5093118DFE46D0030A470 /* L3TestSuite.m in Sources */,
-				D4FEC500179F4E0700356BA3 /* L3TestRunner.m in Sources */,
 				D4248C6518C2168100EE3F67 /* L3TestState+SetUpOnSameLineOfDifferentModule.m in Sources */,
 				D42B169517C5B0F000C5CA29 /* L3Block.m in Sources */,
 				D4BEDF2E17A0F10A00DCFF57 /* L3Expectation.m in Sources */,
@@ -625,7 +616,6 @@
 				D4B53EA017B2892C00D70297 /* NSException+L3OCUnitCompatibility.m in Sources */,
 				D44AA23D17A56F5C00B9F9B3 /* L3SourceReference.m in Sources */,
 				D4A5093018DFE46D0030A470 /* L3TestSuite.m in Sources */,
-				D4FEC502179F4E0900356BA3 /* L3TestRunner.m in Sources */,
 				D4248C6418C2168100EE3F67 /* L3TestState+SetUpOnSameLineOfDifferentModule.m in Sources */,
 				D42B169417C5B0F000C5CA29 /* L3Block.m in Sources */,
 				D4BEDF2D17A0F10A00DCFF57 /* L3Expectation.m in Sources */,
