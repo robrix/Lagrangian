@@ -22,16 +22,6 @@
 	return self.mutableRegisteredSuites;
 }
 
-+(instancetype)suiteForFile:(NSString *)file initializer:(L3TestSuite *(^)())block {
-	L3TestSuite *suite = self.mutableRegisteredSuites[file];
-	if (!suite) {
-		suite = block? block() : nil;
-		if (suite) {
-			self.mutableRegisteredSuites[file] = suite;
-		}
-	}
-	return suite;
-}
 
 +(instancetype)registeredSuiteForFile:(NSString *)file {
 	return self.mutableRegisteredSuites[file];
@@ -49,18 +39,14 @@ static inline NSString *L3PathForImageWithAddress(void(*address)(void)) {
 
 +(instancetype)suiteForImageWithAddress:(void(*)(void))address {
 	NSString *file = L3PathForImageWithAddress(address);
-	return [self suiteForFile:file initializer:^L3TestSuite *{
-		return [self suiteWithSourceReference:L3SourceReferenceCreate(@0, file, 0, nil, file.lastPathComponent)];
-	}];
+	L3TestSuite *suite = self.mutableRegisteredSuites[file];
+	return suite ? suite : (self.mutableRegisteredSuites[file] = [self suiteWithSourceReference:L3SourceReferenceCreate(@0, file, 0, nil, file.lastPathComponent)]);
 }
 
 +(instancetype)suiteForFile:(NSString *)file inImageForAddress:(void(*)(void))address {
-	return [self suiteForFile:file initializer:^L3TestSuite *{
-		L3TestSuite *suite = [self suiteWithSourceReference:L3SourceReferenceCreate(@0, file, 0, nil, [file.lastPathComponent stringByDeletingPathExtension])];
-		L3TestSuite *imageSuite = [self suiteForImageWithAddress:address];
-		[imageSuite addTest:suite];
-		return suite;
-	}];
+	L3TestSuite *imageSuite = [self suiteForImageWithAddress:address];
+	L3TestSuite *suite = [imageSuite suiteForFile:file];
+	return suite ? suite : [imageSuite addSuite:[self suiteWithSourceReference:L3SourceReferenceCreate(@0, file, 0, nil, [file.lastPathComponent stringByDeletingPathExtension])] forFile:file];
 }
 
 
