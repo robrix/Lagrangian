@@ -140,6 +140,11 @@ l3_test(@selector(not)) {
 
 
 @implementation L3TestResult
+
+-(NSString *)description {
+	return [NSString stringWithFormat:@"%@ %@: %@ %@", super.description, self.hypothesisString, self.wasMet? @"true": self.observationString, self.exception];
+}
+
 @end
 
 
