@@ -141,7 +141,7 @@ L3BlockFunction L3TestFunctionForBlock(L3BlockTestSubject subject) {
 
 -(NSString *)formatStringAsTestName:(NSString *)string {
 	NSMutableString *mutable = [string mutableCopy];
-	[[NSRegularExpression regularExpressionWithPattern:@"[^\\w]+" options:NSRegularExpressionCaseInsensitive error:NULL] replaceMatchesInString:mutable options:NSMatchingWithTransparentBounds range:(NSRange){0, mutable.length} withTemplate:@"_"];
+	[[NSRegularExpression regularExpressionWithPattern:@"[^A-Za-z0-9_$]+" options:NSRegularExpressionCaseInsensitive error:NULL] replaceMatchesInString:mutable options:NSMatchingWithTransparentBounds range:(NSRange){0, mutable.length} withTemplate:@"_"];
 	return [mutable copy];
 }
 
