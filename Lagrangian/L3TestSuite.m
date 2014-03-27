@@ -71,13 +71,6 @@ static inline NSString *L3PathForImageWithAddress(void(*address)(void)) {
 	return _suitesByFile[file] = suite;
 }
 
-
-#pragma mark XCTestSuite
-
--(NSString *)name {
-	return super.name;
-}
-
 @end
 
 
