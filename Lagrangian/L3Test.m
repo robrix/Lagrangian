@@ -156,12 +156,10 @@ L3BlockFunction L3TestFunctionForBlock(L3BlockTestSubject subject) {
 	return [self caseNameWithSuiteName:[self formatStringAsTestName:_test.name] assertivePhrase:_result.hypothesisString];
 }
 
--(void)performTest:(XCTestRun *)run {
-	[run start];
+-(void)invokeTest {
 	if (!_result.wasMet) {
 		[self recordFailureWithDescription:_result.observationString inFile:_expectation.subjectReference.file atLine:_expectation.subjectReference.line expected:_result.exception != nil];
 	}
-	[run stop];
 }
 
 @end
