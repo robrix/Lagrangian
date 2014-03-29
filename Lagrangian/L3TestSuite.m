@@ -38,8 +38,12 @@ l3_test(@selector(pathForImageWithAddress:)) {
 	return bundlePath;
 }
 
++(NSString *)bundlePathForImageWithAddress:(void(*)(void))address {
+	return [self bundlePathWithImagePath:[self pathForImageWithAddress:address]];
+}
+
 +(instancetype)suiteForImageWithAddress:(void(*)(void))address {
-	return [self testSuiteForBundlePath:[self bundlePathWithImagePath:[self pathForImageWithAddress:address]]];
+	return [self testSuiteForBundlePath:[self bundlePathForImageWithAddress:address]];
 }
 
 +(instancetype)suiteForFile:(NSString *)file inImageForAddress:(void(*)(void))address {
