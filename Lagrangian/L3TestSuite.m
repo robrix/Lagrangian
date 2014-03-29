@@ -47,9 +47,7 @@ l3_test(@selector(pathForImageWithAddress:)) {
 }
 
 +(instancetype)suiteForFile:(NSString *)file inImageForAddress:(void(*)(void))address {
-	L3TestSuite *imageSuite = [self suiteForImageWithAddress:address];
-	L3TestSuite *suite = [imageSuite suiteForFile:file];
-	return suite ? suite : [imageSuite addSuite:[self suiteWithSourceReference:L3SourceReferenceCreate(@0, file, 0, nil, [file.lastPathComponent stringByDeletingPathExtension])] forFile:file];
+	return [[self suiteForImageWithAddress:address] suiteForFile:file];
 }
 
 
@@ -74,7 +72,8 @@ l3_test(@selector(pathForImageWithAddress:)) {
 
 
 -(instancetype)suiteForFile:(NSString *)file {
-	return _suitesByFile[file];
+	L3TestSuite *suite = _suitesByFile[file];
+	return suite ? suite : [self addSuite:[[self.class alloc] initWithSourceReference:L3SourceReferenceCreate(@0, file, 0, nil, file.lastPathComponent.stringByDeletingPathExtension)]];
 }
 
 -(instancetype)addSuite:(L3TestSuite *)suite {
