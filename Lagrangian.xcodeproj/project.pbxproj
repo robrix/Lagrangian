@@ -718,6 +718,7 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				INFOPLIST_FILE = "Lagrangian/Lagrangian-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(FRAMEWORK_SEARCH_PATHS)";
 				PRODUCT_NAME = Lagrangian;
 				TEST_RIG = "$(BUILT_PRODUCTS_DIR)/lagrangian";
 				WRAPPER_EXTENSION = framework;
@@ -734,6 +735,7 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				INFOPLIST_FILE = "Lagrangian/Lagrangian-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(FRAMEWORK_SEARCH_PATHS)";
 				PRODUCT_NAME = Lagrangian;
 				TEST_RIG = "$(BUILT_PRODUCTS_DIR)/lagrangian";
 				WRAPPER_EXTENSION = framework;
