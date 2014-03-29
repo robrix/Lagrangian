@@ -77,9 +77,9 @@ l3_test(@selector(pathForImageWithAddress:)) {
 	return _suitesByFile[file];
 }
 
--(instancetype)addSuite:(L3TestSuite *)suite forFile:(NSString *)file {
+-(instancetype)addSuite:(L3TestSuite *)suite {
 	[self addTest:suite];
-	return _suitesByFile[file] = suite;
+	return _suitesByFile[suite.sourceReference.file] = suite;
 }
 
 @end
