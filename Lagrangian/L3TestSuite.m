@@ -55,7 +55,7 @@ l3_test(@selector(pathForImageWithAddress:)) {
 +(instancetype)suiteForImageWithAddress:(void(*)(void))address {
 	NSString *file = [self bundlePathWithImagePath:[self pathForImageWithAddress:address]];
 	L3TestSuite *suite = self.mutableRegisteredSuites[file];
-	return suite ? suite : (self.mutableRegisteredSuites[file] = [self suiteWithSourceReference:L3SourceReferenceCreate(@0, file, 0, nil, file.lastPathComponent)]);
+	return suite ? suite : (self.mutableRegisteredSuites[file] = [self testSuiteForBundlePath:file]);
 }
 
 +(instancetype)suiteForFile:(NSString *)file inImageForAddress:(void(*)(void))address {
