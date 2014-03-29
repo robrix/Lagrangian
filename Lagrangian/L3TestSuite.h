@@ -8,8 +8,6 @@
 
 @interface L3TestSuite : XCTestSuite
 
-+(NSDictionary *)registeredSuites;
-
 +(instancetype)suiteForFile:(NSString *)file inImageForAddress:(void(*)(void))address;
 
 +(instancetype)suiteWithSourceReference:(id<L3SourceReference>)sourceReference;

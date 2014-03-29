@@ -7,20 +7,6 @@
 	NSMutableDictionary *_suitesByFile;
 }
 
-+(NSMutableDictionary *)mutableRegisteredSuites {
-	static NSMutableDictionary *suites = nil;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		suites = [NSMutableDictionary new];
-	});
-	return suites;
-}
-
-+(NSDictionary *)registeredSuites {
-	return self.mutableRegisteredSuites;
-}
-
-
 +(NSString *)pathForImageWithAddress:(void(*)(void))address {
 	NSString *path = nil;
 	Dl_info info = {0};
@@ -53,9 +39,7 @@ l3_test(@selector(pathForImageWithAddress:)) {
 }
 
 +(instancetype)suiteForImageWithAddress:(void(*)(void))address {
-	NSString *file = [self bundlePathWithImagePath:[self pathForImageWithAddress:address]];
-	L3TestSuite *suite = self.mutableRegisteredSuites[file];
-	return suite ? suite : (self.mutableRegisteredSuites[file] = [self testSuiteForBundlePath:file]);
+	return [self testSuiteForBundlePath:[self bundlePathWithImagePath:[self pathForImageWithAddress:address]]];
 }
 
 +(instancetype)suiteForFile:(NSString *)file inImageForAddress:(void(*)(void))address {
