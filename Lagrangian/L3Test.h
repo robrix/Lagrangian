@@ -17,7 +17,8 @@
 #define _l3_test_construct(uid, ...) \
 	L3_INLINE void _l3_test_function_name(uid) (L3Test *self); \
 	L3_CONSTRUCTOR void _l3_test_constructor_name(uid) (void) { \
-		L3TestSuite *suite = [L3TestSuite suiteForFile:@__FILE__ inImageForAddress:_l3_test_constructor_name(uid)]; \
+		L3TestSuite *imageSuite = [L3TestSuite testSuiteForBundlePath:[L3TestSuite bundlePathForImageWithAddress:_l3_test_constructor_name(uid)]]; \
+		L3TestSuite *suite = [imageSuite suiteForFile:@__FILE__]; \
 		L3Test *test = L3TestDefine(@__FILE__, __LINE__, @#__VA_ARGS__, __VA_ARGS__, &_l3_test_function_name(uid)); \
 		test.statePrototype = suite.statePrototype; \
 		[suite addTest:test]; \
