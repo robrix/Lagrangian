@@ -83,17 +83,3 @@ l3_test(@selector(pathForImageWithAddress:)) {
 }
 
 @end
-
-
-@interface L3TestSuiteLoader : XCTestCase
-@end
-
-@implementation L3TestSuiteLoader
-
-+(id)defaultTestSuite {
-	XCTestSuite *suite = [XCTestSuite testSuiteWithName:@"L3TestSuiteLoader"];
-	[suite addTestsEnumeratedBy:[[L3TestSuite registeredSuites].allValues objectEnumerator]];
-	return suite;
-}
-
-@end
