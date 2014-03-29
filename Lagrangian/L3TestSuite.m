@@ -70,9 +70,15 @@ l3_test(@selector(pathForImageWithAddress:)) {
 }
 
 -(instancetype)initWithSourceReference:(id<L3SourceReference>)sourceReference {
-	if ((self = [super initWithName:sourceReference.subject])) {
+	if ((self = [self initWithName:sourceReference.subject])) {
 		_sourceReference = sourceReference;
-		
+	}
+	return self;
+}
+
+
+-(instancetype)initWithName:(NSString *)name {
+	if ((self = [super initWithName:name])) {
 		_suitesByFile = [NSMutableDictionary new];
 	}
 	return self;
