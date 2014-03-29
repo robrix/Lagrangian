@@ -21,11 +21,6 @@
 }
 
 
-+(instancetype)registeredSuiteForFile:(NSString *)file {
-	return self.mutableRegisteredSuites[file];
-}
-
-
 +(NSString *)pathForImageWithAddress:(void(*)(void))address {
 	NSString *path = nil;
 	Dl_info info = {0};

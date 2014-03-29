@@ -10,8 +10,6 @@
 
 +(NSDictionary *)registeredSuites;
 
-+(instancetype)registeredSuiteForFile:(NSString *)file;
-
 +(instancetype)suiteForFile:(NSString *)file inImageForAddress:(void(*)(void))address;
 
 +(instancetype)suiteWithSourceReference:(id<L3SourceReference>)sourceReference;
