@@ -133,6 +133,11 @@ L3BlockFunction L3TestFunctionForBlock(L3BlockTestSubject subject) {
 }
 
 
++(XCTest *)defaultTestSuite {
+	return nil;
+}
+
+
 #pragma mark Formatting
 
 -(NSString *)cardinalizeNoun:(NSString *)noun forCount:(NSInteger)count {
