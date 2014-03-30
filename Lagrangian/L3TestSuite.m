@@ -25,25 +25,26 @@ l3_test(@selector(pathForImageWithAddress:)) {
 	l3_expect(pathForAddress).to.equal(executablePathOfSameBundle);
 }
 
-+(NSString *)bundlePathWithImagePath:(NSString *)imagePath {
++(NSBundle *)bundleForImagePath:(NSString *)imagePath {
 	imagePath = imagePath.stringByResolvingSymlinksInPath;
-	NSString *bundlePath = imagePath;
-	for (NSBundle *bundle in [[NSBundle allBundles] arrayByAddingObjectsFromArray:[NSBundle allFrameworks]]) {
-		NSString *currentBundlePath = bundle.executablePath.stringByResolvingSymlinksInPath;
+	NSBundle *bundle = nil;
+	for (NSBundle *each in [[NSBundle allBundles] arrayByAddingObjectsFromArray:[NSBundle allFrameworks]]) {
+		NSString *currentBundlePath = each.executablePath.stringByResolvingSymlinksInPath;
 		if ([currentBundlePath isEqual:imagePath]) {
-			bundlePath = bundle.bundlePath;
+			bundle = each;
 			break;
 		}
 	}
-	return bundlePath;
+	return bundle;
 }
 
-+(NSString *)bundlePathForImageWithAddress:(void(*)(void))address {
-	return [self bundlePathWithImagePath:[self pathForImageWithAddress:address]];
++(NSBundle *)bundleForImageWithAddress:(void(*)(void))address {
+	return [self bundleForImagePath:[self pathForImageWithAddress:address]];
 }
+
 
 +(instancetype)suiteForImageWithAddress:(void(*)(void))address {
-	return [self testSuiteForBundlePath:[self bundlePathForImageWithAddress:address]];
+	return [self testSuiteForBundlePath:[self bundleForImageWithAddress:address].bundlePath];
 }
 
 +(instancetype)suiteForFile:(NSString *)file inImageForAddress:(void(*)(void))address {

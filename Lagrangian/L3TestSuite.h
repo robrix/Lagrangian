@@ -8,8 +8,8 @@
 
 @interface L3TestSuite : XCTestSuite
 
-/// Return the path to the bundle for the Mach-O image containing \c address.
-+(NSString *)bundlePathForImageWithAddress:(void(*)(void))address;
+/// Return bundle for the Mach-O image containing \c address.
++(NSBundle *)bundleForImageWithAddress:(void(*)(void))address;
 
 +(instancetype)suiteForFile:(NSString *)file inImageForAddress:(void(*)(void))address;
 

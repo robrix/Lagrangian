@@ -13,12 +13,13 @@
 	_l3_test_construct(__COUNTER__, __VA_ARGS__)
 
 #if defined(L3_INCLUDE_TESTS)
-
+// testSuiteForBundlePath: causes it to use the bundle registry which basically always ends up being the main bundle or the Lagrangian.framework bundle
+// solution is not to use it; we’re going to have to implement scope ourselves anyway…
+// we will therefore also need to memoize suites for images again
 #define _l3_test_construct(uid, ...) \
 	L3_INLINE void _l3_test_function_name(uid) (L3Test *self); \
 	L3_CONSTRUCTOR void _l3_test_constructor_name(uid) (void) { \
-		L3TestSuite *imageSuite = [L3TestSuite testSuiteForBundlePath:[L3TestSuite bundlePathForImageWithAddress:_l3_test_constructor_name(uid)]]; \
-		L3TestSuite *suite = [imageSuite suiteForFile:@__FILE__]; \
+		L3TestSuite *suite = [L3TestSuite suiteForFile:@__FILE__ inImageForAddress:_l3_test_constructor_name(uid)]; \
 		L3Test *test = L3TestDefine(@__FILE__, __LINE__, @#__VA_ARGS__, __VA_ARGS__, &_l3_test_function_name(uid)); \
 		test.statePrototype = suite.statePrototype; \
 		[suite addTest:test]; \
