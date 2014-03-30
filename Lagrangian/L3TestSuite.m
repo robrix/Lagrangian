@@ -64,6 +64,36 @@ l3_test(@selector(pathForImageWithAddress:)) {
 }
 
 
++(NSMutableDictionary *)registeredSuites {
+	static NSMutableDictionary *registeredSuites = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		registeredSuites = [NSMutableDictionary new];
+	});
+	return registeredSuites;
+}
+
++(instancetype)defaultTestSuite {
+	static L3TestSuite *defaultTestSuite;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		defaultTestSuite = [[self alloc] initWithName:@"All Tests"];
+	});
+	return defaultTestSuite;
+}
+
++(instancetype)testSuiteForBundlePath:(NSString *)bundlePath {
+	L3TestSuite *suite = bundlePath == nil?
+		self.defaultTestSuite
+	:	self.registeredSuites[bundlePath];
+	if (suite == nil) {
+		suite = self.registeredSuites[bundlePath] = [[self alloc] initWithName:bundlePath.lastPathComponent];
+		[[self defaultTestSuite] addTest:suite];
+	}
+	return suite;
+}
+
+
 -(instancetype)initWithName:(NSString *)name {
 	if ((self = [super initWithName:name])) {
 		_suitesByFile = [NSMutableDictionary new];
