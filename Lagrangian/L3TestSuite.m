@@ -7,7 +7,7 @@
 	NSMutableDictionary *_suitesByFile;
 }
 
-+(NSString *)pathForImageWithAddress:(void(*)(void))address {
++(NSString *)pathForExecutableWithAddress:(void(*)(void))address {
 	NSString *path = nil;
 	Dl_info info = {0};
 	if (dladdr((void *)address, &info)) {
@@ -18,14 +18,14 @@
 
 static void sampleAddress(void) {}
 
-l3_test(@selector(pathForImageWithAddress:)) {
-	NSString *pathForAddress = [L3TestSuite pathForImageWithAddress:sampleAddress];
+l3_test(@selector(pathForExecutableWithAddress:)) {
+	NSString *pathForAddress = [L3TestSuite pathForExecutableWithAddress:sampleAddress];
 	NSBundle *bundle = [NSBundle bundleForClass:[L3TestSuite class]];
 	NSString *executablePathOfSameBundle = bundle.executablePath.stringByResolvingSymlinksInPath;
 	l3_expect(pathForAddress).to.equal(executablePathOfSameBundle);
 }
 
-+(NSBundle *)bundleForImagePath:(NSString *)imagePath {
++(NSBundle *)bundleForExecutablePath:(NSString *)imagePath {
 	imagePath = imagePath.stringByResolvingSymlinksInPath;
 	NSBundle *bundle = nil;
 	for (NSBundle *each in [[NSBundle allBundles] arrayByAddingObjectsFromArray:[NSBundle allFrameworks]]) {
@@ -38,16 +38,16 @@ l3_test(@selector(pathForImageWithAddress:)) {
 	return bundle;
 }
 
-+(NSBundle *)bundleForImageWithAddress:(void(*)(void))address {
-	return [self bundleForImagePath:[self pathForImageWithAddress:address]];
++(NSBundle *)bundleForExecutableWithAddress:(void(*)(void))address {
+	return [self bundleForExecutablePath:[self pathForExecutableWithAddress:address]];
 }
 
 
 +(instancetype)suiteForImageWithAddress:(void(*)(void))address {
-	return [self testSuiteForBundlePath:[self bundleForImageWithAddress:address].bundlePath];
+	return [self testSuiteForBundlePath:[self bundleForExecutableWithAddress:address].bundlePath];
 }
 
-+(instancetype)suiteForFile:(NSString *)file inImageForAddress:(void(*)(void))address {
++(instancetype)suiteForFile:(NSString *)file inExecutableForAddress:(void(*)(void))address {
 	return [[self suiteForImageWithAddress:address] suiteForFile:file];
 }
 
