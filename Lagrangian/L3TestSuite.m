@@ -7,26 +7,7 @@
 	NSMutableDictionary *_suitesByFile;
 }
 
-+(NSMutableDictionary *)mutableRegisteredSuites {
-	static NSMutableDictionary *suites = nil;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		suites = [NSMutableDictionary new];
-	});
-	return suites;
-}
-
-+(NSDictionary *)registeredSuites {
-	return self.mutableRegisteredSuites;
-}
-
-
-+(instancetype)registeredSuiteForFile:(NSString *)file {
-	return self.mutableRegisteredSuites[file];
-}
-
-
-static inline NSString *L3PathForImageWithAddress(void(*address)(void)) {
++(NSString *)pathForExecutableWithAddress:(void(*)(void))address {
 	NSString *path = nil;
 	Dl_info info = {0};
 	if (dladdr((void *)address, &info)) {
@@ -35,16 +16,44 @@ static inline NSString *L3PathForImageWithAddress(void(*address)(void)) {
 	return path;
 }
 
-+(instancetype)suiteForImageWithAddress:(void(*)(void))address {
-	NSString *file = L3PathForImageWithAddress(address);
-	L3TestSuite *suite = self.mutableRegisteredSuites[file];
-	return suite ? suite : (self.mutableRegisteredSuites[file] = [self suiteWithSourceReference:L3SourceReferenceCreate(@0, file, 0, nil, file.lastPathComponent)]);
+static void sampleAddress(void) {}
+
+l3_test(@selector(pathForExecutableWithAddress:)) {
+	NSString *pathForAddress = [L3TestSuite pathForExecutableWithAddress:sampleAddress];
+	NSBundle *bundle = [NSBundle bundleForClass:[L3TestSuite class]];
+	NSString *executablePathOfSameBundle = bundle.executablePath.stringByResolvingSymlinksInPath;
+	l3_expect(pathForAddress).to.equal(executablePathOfSameBundle);
 }
 
-+(instancetype)suiteForFile:(NSString *)file inImageForAddress:(void(*)(void))address {
-	L3TestSuite *imageSuite = [self suiteForImageWithAddress:address];
-	L3TestSuite *suite = [imageSuite suiteForFile:file];
-	return suite ? suite : [imageSuite addSuite:[self suiteWithSourceReference:L3SourceReferenceCreate(@0, file, 0, nil, [file.lastPathComponent stringByDeletingPathExtension])] forFile:file];
++(NSBundle *)bundleForExecutablePath:(NSString *)executablePath {
+	executablePath = executablePath.stringByResolvingSymlinksInPath;
+	NSBundle *bundle = nil;
+	for (NSBundle *each in [[NSBundle allBundles] arrayByAddingObjectsFromArray:[NSBundle allFrameworks]]) {
+		NSString *currentBundlePath = each.executablePath.stringByResolvingSymlinksInPath;
+		if ([currentBundlePath isEqual:executablePath]) {
+			bundle = each;
+			break;
+		}
+	}
+	return bundle;
+}
+
++(NSBundle *)bundleForExecutableWithAddress:(void(*)(void))address {
+	return [self bundleForExecutablePath:[self pathForExecutableWithAddress:address]];
+}
+
+
++(instancetype)suiteForExecutablePath:(NSString *)executablePath {
+	return [self testSuiteForBundlePath:[self bundleForExecutablePath:executablePath].bundlePath];
+}
+
+
++(instancetype)suiteForExecutableWithAddress:(void(*)(void))address {
+	return [self suiteForExecutablePath:[self pathForExecutableWithAddress:address]];
+}
+
++(instancetype)suiteForFile:(NSString *)file inExecutableForAddress:(void(*)(void))address {
+	return [[self suiteForExecutableWithAddress:address] suiteForFile:file];
 }
 
 
@@ -53,9 +62,45 @@ static inline NSString *L3PathForImageWithAddress(void(*address)(void)) {
 }
 
 -(instancetype)initWithSourceReference:(id<L3SourceReference>)sourceReference {
-	if ((self = [super initWithName:sourceReference.subject])) {
+	if ((self = [self initWithName:sourceReference.subject])) {
 		_sourceReference = sourceReference;
-		
+	}
+	return self;
+}
+
+
++(NSMutableDictionary *)registeredSuites {
+	static NSMutableDictionary *registeredSuites = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		registeredSuites = [NSMutableDictionary new];
+	});
+	return registeredSuites;
+}
+
++(instancetype)defaultTestSuite {
+	static L3TestSuite *defaultTestSuite;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		defaultTestSuite = [[self alloc] initWithName:@"All Tests"];
+	});
+	return defaultTestSuite;
+}
+
++(instancetype)testSuiteForBundlePath:(NSString *)bundlePath {
+	L3TestSuite *suite = bundlePath == nil?
+		self.defaultTestSuite
+	:	self.registeredSuites[bundlePath];
+	if (suite == nil) {
+		suite = self.registeredSuites[bundlePath] = [[self alloc] initWithName:bundlePath.lastPathComponent];
+		[[self defaultTestSuite] addTest:suite];
+	}
+	return suite;
+}
+
+
+-(instancetype)initWithName:(NSString *)name {
+	if ((self = [super initWithName:name])) {
 		_suitesByFile = [NSMutableDictionary new];
 	}
 	return self;
@@ -63,26 +108,13 @@ static inline NSString *L3PathForImageWithAddress(void(*address)(void)) {
 
 
 -(instancetype)suiteForFile:(NSString *)file {
-	return _suitesByFile[file];
+	L3TestSuite *suite = _suitesByFile[file];
+	return suite ? suite : [self addSuite:[[self.class alloc] initWithSourceReference:L3SourceReferenceCreate(@0, file, 0, nil, file.lastPathComponent.stringByDeletingPathExtension)]];
 }
 
--(instancetype)addSuite:(L3TestSuite *)suite forFile:(NSString *)file {
+-(instancetype)addSuite:(L3TestSuite *)suite {
 	[self addTest:suite];
-	return _suitesByFile[file] = suite;
-}
-
-@end
-
-
-@interface L3TestSuiteLoader : XCTestCase
-@end
-
-@implementation L3TestSuiteLoader
-
-+(id)defaultTestSuite {
-	XCTestSuite *suite = [XCTestSuite testSuiteWithName:@"L3TestSuiteLoader"];
-	[suite addTestsEnumeratedBy:[[L3TestSuite registeredSuites].allValues objectEnumerator]];
-	return suite;
+	return _suitesByFile[suite.sourceReference.file] = suite;
 }
 
 @end

@@ -8,11 +8,11 @@
 
 @interface L3TestSuite : XCTestSuite
 
-+(NSDictionary *)registeredSuites;
+/// Return bundle for the Mach-O executable containing \c address.
++(NSBundle *)bundleForExecutableWithAddress:(void(*)(void))address;
 
-+(instancetype)registeredSuiteForFile:(NSString *)file;
-
-+(instancetype)suiteForFile:(NSString *)file inImageForAddress:(void(*)(void))address;
++(instancetype)suiteForExecutablePath:(NSString *)executablePath;
++(instancetype)suiteForFile:(NSString *)file inExecutableForAddress:(void(*)(void))address;
 
 +(instancetype)suiteWithSourceReference:(id<L3SourceReference>)sourceReference;
 -(instancetype)initWithSourceReference:(id<L3SourceReference>)sourceReference;
@@ -22,7 +22,7 @@
 @property L3TestStatePrototype *statePrototype;
 
 -(instancetype)suiteForFile:(NSString *)file;
--(instancetype)addSuite:(L3TestSuite *)suite forFile:(NSString *)file;
+-(instancetype)addSuite:(L3TestSuite *)suite;
 
 @end
 
