@@ -8,9 +8,10 @@
 
 @interface L3TestSuite : XCTestSuite
 
-/// Return bundle for the Mach-O image containing \c address.
+/// Return bundle for the Mach-O executable containing \c address.
 +(NSBundle *)bundleForExecutableWithAddress:(void(*)(void))address;
 
++(instancetype)suiteForExecutablePath:(NSString *)executablePath;
 +(instancetype)suiteForFile:(NSString *)file inExecutableForAddress:(void(*)(void))address;
 
 +(instancetype)suiteWithSourceReference:(id<L3SourceReference>)sourceReference;

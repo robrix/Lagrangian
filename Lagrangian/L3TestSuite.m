@@ -25,12 +25,12 @@ l3_test(@selector(pathForExecutableWithAddress:)) {
 	l3_expect(pathForAddress).to.equal(executablePathOfSameBundle);
 }
 
-+(NSBundle *)bundleForExecutablePath:(NSString *)imagePath {
-	imagePath = imagePath.stringByResolvingSymlinksInPath;
++(NSBundle *)bundleForExecutablePath:(NSString *)executablePath {
+	executablePath = executablePath.stringByResolvingSymlinksInPath;
 	NSBundle *bundle = nil;
 	for (NSBundle *each in [[NSBundle allBundles] arrayByAddingObjectsFromArray:[NSBundle allFrameworks]]) {
 		NSString *currentBundlePath = each.executablePath.stringByResolvingSymlinksInPath;
-		if ([currentBundlePath isEqual:imagePath]) {
+		if ([currentBundlePath isEqual:executablePath]) {
 			bundle = each;
 			break;
 		}
@@ -43,12 +43,17 @@ l3_test(@selector(pathForExecutableWithAddress:)) {
 }
 
 
-+(instancetype)suiteForImageWithAddress:(void(*)(void))address {
-	return [self testSuiteForBundlePath:[self bundleForExecutableWithAddress:address].bundlePath];
++(instancetype)suiteForExecutablePath:(NSString *)executablePath {
+	return [self testSuiteForBundlePath:[self bundleForExecutablePath:executablePath].bundlePath];
+}
+
+
++(instancetype)suiteForExecutableWithAddress:(void(*)(void))address {
+	return [self suiteForExecutablePath:[self pathForExecutableWithAddress:address]];
 }
 
 +(instancetype)suiteForFile:(NSString *)file inExecutableForAddress:(void(*)(void))address {
-	return [[self suiteForImageWithAddress:address] suiteForFile:file];
+	return [[self suiteForExecutableWithAddress:address] suiteForFile:file];
 }
 
 
