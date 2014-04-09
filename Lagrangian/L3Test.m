@@ -3,7 +3,6 @@
 #import "Lagrangian.h"
 #import <dlfcn.h>
 
-
 NSString * const L3ErrorDomain = @"com.antitypical.lagrangian";
 
 NSString * const L3ExpectationErrorKey = @"L3ExpectationErrorKey";
@@ -13,7 +12,7 @@ l3_setup(L3Test, (L3Test *test)) {}
 
 @interface L3ExpectationTestCase : XCTestCase
 
-+(instancetype)testCaseWithExpectation:(id<L3Expectation>)expectation result:(id<L3TestResult>)result inTest:(L3Test *)test;
++(instancetype)testCaseWithExpectation:(id<L3Expectation>)expectation resultBlock:(id<L3TestResult>(^)(void))resultBlock inTest:(L3Test *)test;
 
 @end
 
@@ -74,15 +73,7 @@ l3_setup(L3Test, (L3Test *test)) {}
 	if (self.function) self.function(self);
 }
 
--(void)expectation:(id<L3Expectation>)expectation producedResult:(id<L3TestResult>)result {
-	if (self.expectationCallback) self.expectationCallback(expectation, result);
-	else {
-		[self addTest:[L3ExpectationTestCase testCaseWithExpectation:expectation result:result inTest:self]];
-	}
-}
-
 -(void)failWithException:(NSException *)exception {
-	[self expectation:nil producedResult:L3TestResultCreateWithException(exception)];
 }
 
 
@@ -122,14 +113,14 @@ L3BlockFunction L3TestFunctionForBlock(L3BlockTestSubject subject) {
 	__weak L3Test *_test;
 }
 
-+(instancetype)testCaseWithExpectation:(id<L3Expectation>)expectation result:(id<L3TestResult>)result inTest:(L3Test *)test {
-	return [[self alloc] initWithExpectation:expectation result:result inTest:test];
++(instancetype)testCaseWithExpectation:(id<L3Expectation>)expectation resultBlock:(id<L3TestResult>(^)(void))resultBlock inTest:(L3Test *)test {
+	return [[self alloc] initWithExpectation:expectation resultBlock:resultBlock inTest:test];
 }
 
--(instancetype)initWithExpectation:(id<L3Expectation>)expectation result:(id<L3TestResult>)result inTest:(L3Test *)test {
+-(instancetype)initWithExpectation:(id<L3Expectation>)expectation resultBlock:(id<L3TestResult>(^)(void))resultBlock inTest:(L3Test *)test {
 	if ((self = [super init])) {
 		_expectation = expectation;
-		_result = result;
+		_resultBlock = [resultBlock copy];
 		_test = test;
 	}
 	return self;

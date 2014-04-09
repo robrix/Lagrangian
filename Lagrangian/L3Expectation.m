@@ -122,7 +122,6 @@ l3_test(@selector(not)) {
 		result.observationString = self.indicativePhrase;
 		result.wasMet = wasMet;
 		result.exception = unexpectedException;
-		[self.test expectation:self producedResult:result];
 	}
 	return wasMet;
 }
