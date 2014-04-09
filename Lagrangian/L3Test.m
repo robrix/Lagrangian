@@ -117,6 +117,7 @@ L3BlockFunction L3TestFunctionForBlock(L3BlockTestSubject subject) {
 
 @implementation L3ExpectationTestCase {
 	id<L3Expectation> _expectation;
+	id<L3TestResult> (^_resultBlock)(void);
 	id<L3TestResult> _result;
 	__weak L3Test *_test;
 }
