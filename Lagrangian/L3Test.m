@@ -3,7 +3,6 @@
 #import "Lagrangian.h"
 #import <dlfcn.h>
 
-
 NSString * const L3ErrorDomain = @"com.antitypical.lagrangian";
 
 NSString * const L3ExpectationErrorKey = @"L3ExpectationErrorKey";
@@ -13,8 +12,11 @@ l3_setup(L3Test, (L3Test *test)) {}
 
 @interface L3ExpectationTestCase : XCTestCase
 
-+(instancetype)testCaseWithExpectation:(id<L3Expectation>)expectation result:(id<L3TestResult>)result inTest:(L3Test *)test;
++(instancetype)testCaseWithExpectation:(id<L3Expectation>)expectation resultBlock:(id<L3TestResult>(^)(void))resultBlock inTest:(L3Test *)test;
 
+@end
+
+@interface L3ExceptionRun : XCTestRun
 @end
 
 @interface L3Test ()
@@ -23,13 +25,13 @@ l3_setup(L3Test, (L3Test *test)) {}
 
 @property (readonly) NSMutableArray *mutableExpectations;
 
-@property (copy) L3TestExpectationBlock expectationCallback;
-
 @property L3TestState *state;
 
 @end
 
-@implementation L3Test
+@implementation L3Test {
+	XCTestSuiteRun *_currentRun;
+}
 
 +(instancetype)testWithSourceReference:(id<L3SourceReference>)sourceReference function:(L3TestFunction)function {
 	return [[self alloc] initWithSourceReference:sourceReference function:function];
@@ -59,28 +61,40 @@ l3_setup(L3Test, (L3Test *test)) {}
 -(void)setUp {
 	self.state = [self.statePrototype createState];
 	[self.state setUpWithTest:self];
+}
+
+-(void)performTest:(XCTestRun *)run {
+	[self setUp];
 	
-	if (self.function) self.function(self);
+	_currentRun = (XCTestSuiteRun *)run;
+	[_currentRun start];
+	
+	@try {
+		if (self.function) self.function(self);
+	}
+	@catch (NSException *exception) {
+		[exception self];
+		XCTestRun *exceptionRun = [L3ExceptionRun testRunWithTest:self];
+		[exceptionRun start];
+		[exceptionRun stop];
+		[_currentRun addTestRun:exceptionRun];
+	}
+	
+	[_currentRun stop];
+	
+	[self tearDown];
 }
 
 -(void)tearDown {
 	self.state = nil;
 }
 
--(void)run:(L3TestExpectationBlock)expectationCallback {
-	self.expectationCallback = expectationCallback;
-	if (self.function) self.function(self);
-}
-
--(void)expectation:(id<L3Expectation>)expectation producedResult:(id<L3TestResult>)result {
-	if (self.expectationCallback) self.expectationCallback(expectation, result);
-	else {
-		[self addTest:[L3ExpectationTestCase testCaseWithExpectation:expectation result:result inTest:self]];
-	}
-}
-
--(void)failWithException:(NSException *)exception {
-	[self expectation:nil producedResult:L3TestResultCreateWithException(exception)];
+-(bool)testExpectation:(id<L3Expectation>)expectation withBlock:(id<L3TestResult>(^)(void))block {
+	XCTest *expectationTest = [L3ExpectationTestCase testCaseWithExpectation:expectation resultBlock:block inTest:self];
+	[self addTest:expectationTest];
+	XCTestRun *expectationRun = expectationTest.run;
+	[_currentRun addTestRun:expectationRun];
+	return expectationRun.hasSucceeded;
 }
 
 
@@ -115,18 +129,19 @@ L3BlockFunction L3TestFunctionForBlock(L3BlockTestSubject subject) {
 
 @implementation L3ExpectationTestCase {
 	id<L3Expectation> _expectation;
+	id<L3TestResult> (^_resultBlock)(void);
 	id<L3TestResult> _result;
 	__weak L3Test *_test;
 }
 
-+(instancetype)testCaseWithExpectation:(id<L3Expectation>)expectation result:(id<L3TestResult>)result inTest:(L3Test *)test {
-	return [[self alloc] initWithExpectation:expectation result:result inTest:test];
++(instancetype)testCaseWithExpectation:(id<L3Expectation>)expectation resultBlock:(id<L3TestResult>(^)(void))resultBlock inTest:(L3Test *)test {
+	return [[self alloc] initWithExpectation:expectation resultBlock:resultBlock inTest:test];
 }
 
--(instancetype)initWithExpectation:(id<L3Expectation>)expectation result:(id<L3TestResult>)result inTest:(L3Test *)test {
+-(instancetype)initWithExpectation:(id<L3Expectation>)expectation resultBlock:(id<L3TestResult>(^)(void))resultBlock inTest:(L3Test *)test {
 	if ((self = [super init])) {
 		_expectation = expectation;
-		_result = result;
+		_resultBlock = [resultBlock copy];
 		_test = test;
 	}
 	return self;
@@ -158,13 +173,28 @@ L3BlockFunction L3TestFunctionForBlock(L3BlockTestSubject subject) {
 #pragma mark XCTest
 
 -(NSString *)name {
-	return [self caseNameWithSuiteName:[self formatStringAsTestName:_test.name] assertivePhrase:_result.hypothesisString];
+	return [self caseNameWithSuiteName:[self formatStringAsTestName:_test.name] assertivePhrase:_expectation.assertivePhrase];
 }
 
 -(void)invokeTest {
-	if (!_result.wasMet) {
-		[self recordFailureWithDescription:_result.observationString inFile:_expectation.subjectReference.file atLine:_expectation.subjectReference.line expected:_result.exception != nil];
+	@try {
+		_result = _resultBlock();
+		
+		if (!_result.wasMet)
+			[self recordFailureWithDescription:_result.observationString inFile:_expectation.subjectReference.file atLine:_expectation.subjectReference.line expected:_result.exception == nil];
 	}
+	@catch (NSException *exception) {
+		[self recordFailureWithDescription:exception.reason inFile:_expectation.subjectReference.file atLine:_expectation.subjectReference.line expected:NO];
+	}
+}
+
+@end
+
+
+@implementation L3ExceptionRun
+
+-(NSUInteger)unexpectedExceptionCount {
+	return 1;
 }
 
 @end

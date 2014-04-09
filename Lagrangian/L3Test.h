@@ -64,7 +64,7 @@ L3_EXTERN NSString * const L3ExpectationErrorKey;
 
 @property L3TestStatePrototype *statePrototype;
 
--(void)expectation:(id<L3Expectation>)expectation producedResult:(id<L3TestResult>)result;
+-(bool)testExpectation:(id<L3Expectation>)expectation withBlock:(id<L3TestResult>(^)(void))block;
 
 @end
 

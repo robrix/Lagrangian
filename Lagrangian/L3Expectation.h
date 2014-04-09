@@ -21,6 +21,8 @@
 
 @property (readonly) bool (^equal)(id object);
 
+@property (readonly) NSString *assertivePhrase;
+
 @end
 
 

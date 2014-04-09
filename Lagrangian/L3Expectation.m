@@ -81,6 +81,7 @@ typedef bool (^L3PredicateBlock)(L3Predicate *predicate, id subject);
 
 @synthesize subjectReference = _subjectReference;
 
+
 -(id<L3Expectation>)to {
 	return self;
 }
@@ -106,25 +107,16 @@ l3_test(@selector(not)) {
 
 
 -(bool)testExpectation {
-	bool wasMet = NO;
-	NSException *unexpectedException = nil;
-	@try {
-		wasMet = [self.predicate testWithSubject:self.subjectReference.subject];
-		wasMet = self.isInverted? !wasMet : wasMet;
-	}
-	@catch (NSException *exception) {
-		unexpectedException = exception;
-	}
-	@finally {
+	return [self.test testExpectation:self withBlock:^id<L3TestResult> {
+		bool wasMet = [self.predicate testWithSubject:self.subjectReference.subject];
+		
 		L3TestResult *result = [L3TestResult new];
 		result.subjectReference = self.subjectReference;
 		result.hypothesisString = self.assertivePhrase;
 		result.observationString = self.indicativePhrase;
-		result.wasMet = wasMet;
-		result.exception = unexpectedException;
-		[self.test expectation:self producedResult:result];
-	}
-	return wasMet;
+		result.wasMet = self.isInverted? !wasMet : wasMet;
+		return result;
+	}];
 }
 
 
@@ -157,7 +149,7 @@ id<L3Expectation> L3Expect(L3Test *test, id<L3SourceReference> subjectReference)
 
 id<L3TestResult> L3TestResultCreateWithException(NSException *exception) {
 	L3TestResult *result = [L3TestResult new];
-	result.subjectReference = L3SourceReferenceCreate(nil, exception.filename, exception.lineNumber.unsignedIntegerValue, nil, nil);
+	result.subjectReference = L3SourceReferenceCreate(nil, exception.filename, exception.lineNumber.unsignedIntegerValue, nil, (id)nil);
 	result.hypothesisString = exception.reason;
 	result.observationString = exception.reason;
 	result.wasMet = NO;
