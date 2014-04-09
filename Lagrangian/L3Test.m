@@ -22,8 +22,6 @@ l3_setup(L3Test, (L3Test *test)) {}
 
 @property (readonly) NSMutableArray *mutableExpectations;
 
-@property (copy) L3TestExpectationBlock expectationCallback;
-
 @property L3TestState *state;
 
 @end
@@ -66,11 +64,6 @@ l3_setup(L3Test, (L3Test *test)) {}
 
 -(void)tearDown {
 	self.state = nil;
-}
-
--(void)run:(L3TestExpectationBlock)expectationCallback {
-	self.expectationCallback = expectationCallback;
-	if (self.function) self.function(self);
 }
 
 -(void)failWithException:(NSException *)exception {
