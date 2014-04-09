@@ -149,8 +149,14 @@ L3BlockFunction L3TestFunctionForBlock(L3BlockTestSubject subject) {
 }
 
 -(void)invokeTest {
-	if (!_result.wasMet) {
-		[self recordFailureWithDescription:_result.observationString inFile:_expectation.subjectReference.file atLine:_expectation.subjectReference.line expected:_result.exception != nil];
+	@try {
+		_result = _resultBlock();
+		
+		if (!_result.wasMet)
+			[self recordFailureWithDescription:_result.observationString inFile:_expectation.subjectReference.file atLine:_expectation.subjectReference.line expected:_result.exception == nil];
+	}
+	@catch (NSException *exception) {
+		[self recordFailureWithDescription:exception.reason inFile:_expectation.subjectReference.file atLine:_expectation.subjectReference.line expected:NO];
 	}
 }
 
