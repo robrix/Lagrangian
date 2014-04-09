@@ -16,6 +16,9 @@ l3_setup(L3Test, (L3Test *test)) {}
 
 @end
 
+@interface L3ExceptionRun : XCTestRun
+@end
+
 @interface L3Test ()
 
 @property (readonly) L3TestFunction function;
@@ -66,7 +69,16 @@ l3_setup(L3Test, (L3Test *test)) {}
 	_currentRun = (XCTestSuiteRun *)run;
 	[_currentRun start];
 	
-	if (self.function) self.function(self);
+	@try {
+		if (self.function) self.function(self);
+	}
+	@catch (NSException *exception) {
+		[exception self];
+		XCTestRun *exceptionRun = [L3ExceptionRun testRunWithTest:self];
+		[exceptionRun start];
+		[exceptionRun stop];
+		[_currentRun addTestRun:exceptionRun];
+	}
 	
 	[_currentRun stop];
 	
@@ -174,6 +186,15 @@ L3BlockFunction L3TestFunctionForBlock(L3BlockTestSubject subject) {
 	@catch (NSException *exception) {
 		[self recordFailureWithDescription:exception.reason inFile:_expectation.subjectReference.file atLine:_expectation.subjectReference.line expected:NO];
 	}
+}
+
+@end
+
+
+@implementation L3ExceptionRun
+
+-(NSUInteger)unexpectedExceptionCount {
+	return 1;
 }
 
 @end
