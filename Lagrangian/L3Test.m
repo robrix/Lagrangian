@@ -158,7 +158,7 @@ L3BlockFunction L3TestFunctionForBlock(L3BlockTestSubject subject) {
 #pragma mark XCTest
 
 -(NSString *)name {
-	return [self caseNameWithSuiteName:[self formatStringAsTestName:_test.name] assertivePhrase:_result.hypothesisString];
+	return [self caseNameWithSuiteName:[self formatStringAsTestName:_test.name] assertivePhrase:_expectation.assertivePhrase];
 }
 
 -(void)invokeTest {
