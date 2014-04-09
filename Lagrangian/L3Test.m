@@ -58,15 +58,31 @@ l3_setup(L3Test, (L3Test *test)) {}
 -(void)setUp {
 	self.state = [self.statePrototype createState];
 	[self.state setUpWithTest:self];
+}
+
+-(void)performTest:(XCTestRun *)run {
+	[self setUp];
+	
+	_currentRun = (XCTestSuiteRun *)run;
+	[_currentRun start];
 	
 	if (self.function) self.function(self);
+	
+	[_currentRun stop];
+	
+	[self tearDown];
 }
 
 -(void)tearDown {
 	self.state = nil;
 }
 
--(void)failWithException:(NSException *)exception {
+-(bool)testExpectation:(id<L3Expectation>)expectation withBlock:(id<L3TestResult>(^)(void))block {
+	XCTest *expectationTest = [L3ExpectationTestCase testCaseWithExpectation:expectation resultBlock:block inTest:self];
+	[self addTest:expectationTest];
+	XCTestRun *expectationRun = expectationTest.run;
+	[_currentRun addTestRun:expectationRun];
+	return expectationRun.hasSucceeded;
 }
 
 

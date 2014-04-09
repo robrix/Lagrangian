@@ -81,6 +81,7 @@ typedef bool (^L3PredicateBlock)(L3Predicate *predicate, id subject);
 
 @synthesize subjectReference = _subjectReference;
 
+
 -(id<L3Expectation>)to {
 	return self;
 }
@@ -106,24 +107,16 @@ l3_test(@selector(not)) {
 
 
 -(bool)testExpectation {
-	bool wasMet = NO;
-	NSException *unexpectedException = nil;
-	@try {
-		wasMet = [self.predicate testWithSubject:self.subjectReference.subject];
-		wasMet = self.isInverted? !wasMet : wasMet;
-	}
-	@catch (NSException *exception) {
-		unexpectedException = exception;
-	}
-	@finally {
+	return [self.test testExpectation:self withBlock:^id<L3TestResult> {
+		bool wasMet = [self.predicate testWithSubject:self.subjectReference.subject];
+		
 		L3TestResult *result = [L3TestResult new];
 		result.subjectReference = self.subjectReference;
 		result.hypothesisString = self.assertivePhrase;
 		result.observationString = self.indicativePhrase;
-		result.wasMet = wasMet;
-		result.exception = unexpectedException;
-	}
-	return wasMet;
+		result.wasMet = self.isInverted? !wasMet : wasMet;
+		return result;
+	}];
 }
 
 
