@@ -29,7 +29,9 @@ l3_setup(L3Test, (L3Test *test)) {}
 
 @end
 
-@implementation L3Test
+@implementation L3Test {
+	XCTestSuiteRun *_currentRun;
+}
 
 +(instancetype)testWithSourceReference:(id<L3SourceReference>)sourceReference function:(L3TestFunction)function {
 	return [[self alloc] initWithSourceReference:sourceReference function:function];
