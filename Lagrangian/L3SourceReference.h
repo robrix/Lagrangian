@@ -19,7 +19,7 @@
 
 
 #define l3_source_reference(...) \
-	L3SourceReferenceCreate(@(__COUNTER__), @(__FILE__), __LINE__, @(#__VA_ARGS__), L3Box(__VA_ARGS__))
+	L3SourceReferenceCreate(@(__COUNTER__), @(__FILE__), __LINE__, @(#__VA_ARGS__), ^{ return L3Box(__VA_ARGS__); })
 
 /**
  Creates a reference to a given source location, optionally including the subject of the reference and its source.
@@ -28,9 +28,17 @@
  @param file The file being referred to, most often @(__FILE__).
  @param line The line being referred to, most often __LINE__.
  @param subjectSource The source code of the subject of the reference. Can be nil.
- @param subject The subject of the reference. Can be nil.
+ @param subjectBlock The subject of the reference (wrapped in a block). Can be nil.
  */
+L3_EXTERN id<L3SourceReference> L3SourceReferenceCreateLazy(id identifier, NSString *file, NSUInteger line, NSString *subjectSource, id(^subjectBlock)(void));
 
-L3_EXTERN id<L3SourceReference> L3SourceReferenceCreate(id identifier, NSString *file, NSUInteger line, NSString *subjectSource, id subject);
+L3_OVERLOADABLE id<L3SourceReference> L3SourceReferenceCreate(id identifier, NSString *file, NSUInteger line, NSString *subjectSource, id(^subjectBlock)(void)) {
+	return L3SourceReferenceCreateLazy(identifier, file, line, subjectSource, subjectBlock);
+}
+
+L3_OVERLOADABLE id<L3SourceReference> L3SourceReferenceCreate(id identifier, NSString *file, NSUInteger line, NSString *subjectSource, id subject) {
+	return L3SourceReferenceCreateLazy(identifier, file, line, subjectSource, ^{ return subject; });
+}
+
 
 #endif // L3_SOURCE_REFERENCE_H

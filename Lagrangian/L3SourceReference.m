@@ -3,11 +3,13 @@
 @interface L3SourceReference : NSObject <L3SourceReference>
 @end
 
-@implementation L3SourceReference
+@implementation L3SourceReference {
+	id (^_subjectBlock)(void);
+}
 
 #pragma mark Constructors
 
--(instancetype)initWithIdentifier:(id)identifier file:(NSString *)file line:(NSUInteger)line subjectSource:(NSString *)subjectSource subject:(id)subject {
+-(instancetype)initWithIdentifier:(id)identifier file:(NSString *)file line:(NSUInteger)line subjectSource:(NSString *)subjectSource subjectBlock:(id(^)(void))subjectBlock {
 	if ((self = [super init])) {
 		_identifier = identifier;
 		
@@ -15,7 +17,7 @@
 		_line = line;
 		
 		_subjectSource = [subjectSource copy];
-		_subject = subject;
+		_subjectBlock = [subjectBlock copy];
 	}
 	return self;
 }
@@ -30,6 +32,18 @@
 
 	subjectSource = _subjectSource,
 	subject = _subject;
+
+-(id)subject {
+	if (_subjectBlock) {
+		@try {
+			_subject = _subjectBlock();
+		}
+		@finally {
+			_subjectBlock = nil;
+		}
+	}
+	return _subject;
+}
 
 
 #pragma mark NSCopying
@@ -50,6 +64,6 @@
 @end
 
 
-id<L3SourceReference> L3SourceReferenceCreate(id identifier, NSString *file, NSUInteger line, NSString *subjectSource, id subject) {
-	return [[L3SourceReference alloc] initWithIdentifier:identifier file:file line:line subjectSource:subjectSource subject:subject];
+id<L3SourceReference> L3SourceReferenceCreateLazy(id identifier, NSString *file, NSUInteger line, NSString *subjectSource, id(^subjectBlock)(void)) {
+	return [[L3SourceReference alloc] initWithIdentifier:identifier file:file line:line subjectSource:subjectSource subjectBlock:subjectBlock];
 }
