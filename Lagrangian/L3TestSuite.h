@@ -1,7 +1,11 @@
 #ifndef L3_TEST_SUITE_H
 #define L3_TEST_SUITE_H
 
-#import <XCTest/XCTest.h>
+#pragma clang diagnostic push
+#pragma clang diagnostic ignore ("-Wvariadic-macros")
+#import <XCTest/XCTestSuite.h>
+#pragma clang diagnostic pop
+
 #import <Lagrangian/L3SourceReference.h>
 
 @class L3TestStatePrototype;
