@@ -64,6 +64,9 @@ l3_setup(L3Test, (L3Test *test)) {}
 }
 
 -(void)performTest:(XCTestRun *)run {
+	printf("\n");
+	fflush(stdout);
+	
 	[self setUp];
 	
 	_currentRun = (XCTestSuiteRun *)run;
@@ -83,6 +86,9 @@ l3_setup(L3Test, (L3Test *test)) {}
 	[_currentRun stop];
 	
 	[self tearDown];
+	
+	printf("\n");
+	fflush(stdout);
 }
 
 -(void)tearDown {

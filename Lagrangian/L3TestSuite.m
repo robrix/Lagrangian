@@ -117,4 +117,14 @@ l3_test(@selector(pathForExecutableWithAddress:)) {
 	return _suitesByFile[suite.sourceReference.file] = suite;
 }
 
+-(void)performTest:(XCTestRun *)run {
+	printf("\n");
+	fflush(stdout);
+	
+	[super performTest:run];
+	
+	printf("\n");
+	fflush(stdout);
+}
+
 @end
