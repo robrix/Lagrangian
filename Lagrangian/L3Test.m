@@ -154,7 +154,7 @@ L3BlockFunction L3TestFunctionForBlock(L3BlockTestSubject subject) {
 }
 
 
-+(XCTest *)defaultTestSuite {
++(XCTestSuite *)defaultTestSuite {
 	return nil;
 }
 
