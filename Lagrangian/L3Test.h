@@ -3,6 +3,7 @@
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignore ("-Wvariadic-macros")
+#pragma clang diagnostic ignore ("-Wdocumentation-unknown-command")
 #import <XCTest/XCTestSuite.h>
 #pragma clang diagnostic pop
 
