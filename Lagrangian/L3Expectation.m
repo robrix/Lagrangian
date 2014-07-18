@@ -48,6 +48,9 @@ typedef bool (^L3PredicateBlock)(L3Predicate *predicate, id subject);
 }
 
 
+@synthesize description = _description;
+
+
 -(bool)testWithSubject:(id)subject {
 	return self.block(self, subject);
 }
