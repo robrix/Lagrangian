@@ -24,7 +24,6 @@
 		D4391698179E49C40002EDCA /* L3Defines.h in Headers */ = {isa = PBXBuildFile; fileRef = D4391695179E49B40002EDCA /* L3Defines.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D44AA23C17A56F5B00B9F9B3 /* L3SourceReference.m in Sources */ = {isa = PBXBuildFile; fileRef = D457D678165094F100340DAC /* L3SourceReference.m */; };
 		D44AA23D17A56F5C00B9F9B3 /* L3SourceReference.m in Sources */ = {isa = PBXBuildFile; fileRef = D457D678165094F100340DAC /* L3SourceReference.m */; };
-		D46D2B4918E112360065701D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4CE329E18DFB52900CADB65 /* XCTest.framework */; };
 		D46D2B5A18E113650065701D /* L3TestStub.m in Sources */ = {isa = PBXBuildFile; fileRef = D46D2B5918E1135C0065701D /* L3TestStub.m */; };
 		D46D2B5B18E113660065701D /* L3TestStub.m in Sources */ = {isa = PBXBuildFile; fileRef = D46D2B5918E1135C0065701D /* L3TestStub.m */; };
 		D46D2B5C18E116B50065701D /* Lagrangian.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4B62B4C16A1581700E42C84 /* Lagrangian.framework */; };
@@ -33,6 +32,8 @@
 		D473F5CE16DA713E000FCD8D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D473F5CD16DA713E000FCD8D /* Foundation.framework */; };
 		D473F5E616DA71ED000FCD8D /* Lagrangian.h in Headers */ = {isa = PBXBuildFile; fileRef = D4AC431E1648B5D300C0A25B /* Lagrangian.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D473F5EA16DA71ED000FCD8D /* L3SourceReference.h in Headers */ = {isa = PBXBuildFile; fileRef = D457D677165094F100340DAC /* L3SourceReference.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D4A16B881995CD6000DEC88A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4A16B871995CD6000DEC88A /* XCTest.framework */; };
+		D4A16B891995CDB400DEC88A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4A16B871995CD6000DEC88A /* XCTest.framework */; };
 		D4A5092E18DFE46D0030A470 /* L3TestSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = D4A5092C18DFE46D0030A470 /* L3TestSuite.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4A5092F18DFE46D0030A470 /* L3TestSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = D4A5092C18DFE46D0030A470 /* L3TestSuite.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4A5093018DFE46D0030A470 /* L3TestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = D4A5092D18DFE46D0030A470 /* L3TestSuite.m */; };
@@ -98,6 +99,8 @@
 		D473F56E16D8CD03000FCD8D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		D473F5CC16DA713E000FCD8D /* libLagrangian.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLagrangian.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D473F5CD16DA713E000FCD8D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D4A16B7C1995CD2300DEC88A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		D4A16B871995CD6000DEC88A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		D4A5092C18DFE46D0030A470 /* L3TestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = L3TestSuite.h; sourceTree = "<group>"; };
 		D4A5092D18DFE46D0030A470 /* L3TestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = L3TestSuite.m; sourceTree = "<group>"; };
 		D4A5B2C3164B4FAF00338EB4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -127,8 +130,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D46D2B4918E112360065701D /* XCTest.framework in Frameworks */,
 				D46D2B5C18E116B50065701D /* Lagrangian.framework in Frameworks */,
+				D4A16B891995CDB400DEC88A /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,9 +149,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D42F02E61979BCCC0029EB5C /* XCTest.framework in Frameworks */,
 				D4B62B8C16A15A2C00E42C84 /* Cocoa.framework in Frameworks */,
 				D4B62B6F16A15A0400E42C84 /* Foundation.framework in Frameworks */,
+				D4A16B881995CD6000DEC88A /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,7 +248,8 @@
 		D4AC43141648B5D300C0A25B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D42F02E21979B8DD0029EB5C /* XCTest.framework */,
+				D4A16B871995CD6000DEC88A /* XCTest.framework */,
+				D4A16B7C1995CD2300DEC88A /* XCTest.framework */,
 				D4CE32A118DFB53C00CADB65 /* UIKit.framework */,
 				D4CE329E18DFB52900CADB65 /* XCTest.framework */,
 				D473F57116D8CD17000FCD8D /* iOS */,
@@ -582,7 +586,10 @@
 		D46D2B5618E112360065701D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_FRAMEWORKS_DIR)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+				);
 				INFOPLIST_FILE = "Lagrangian/Lagrangian Tests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -593,7 +600,10 @@
 		D46D2B5718E112360065701D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_FRAMEWORKS_DIR)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+				);
 				INFOPLIST_FILE = "Lagrangian/Lagrangian Tests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -718,7 +728,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(DEVELOPER_SDK_DIR)/../Library/Frameworks/",
+					"$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/Library/Frameworks",
 				);
 				INFOPLIST_FILE = "Lagrangian/Lagrangian-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(FRAMEWORK_SEARCH_PATHS)";
@@ -736,7 +746,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(DEVELOPER_SDK_DIR)/../Library/Frameworks/",
+					"$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/Library/Frameworks",
 				);
 				INFOPLIST_FILE = "Lagrangian/Lagrangian-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(FRAMEWORK_SEARCH_PATHS)";

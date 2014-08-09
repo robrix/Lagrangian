@@ -25,7 +25,7 @@ typedef bool (^L3PredicateBlock)(L3Predicate *predicate, id subject);
 @interface L3Predicate : NSObject
 
 @property (weak, readonly) id<L3Expectation> expectation;
-@property (readonly) NSString *description;
+@property (copy, readonly) NSString *description;
 @property (readonly) L3PredicateBlock block;
 
 @property (strong) L3Predicate *next;
@@ -34,7 +34,9 @@ typedef bool (^L3PredicateBlock)(L3Predicate *predicate, id subject);
 
 @end
 
-@implementation L3Predicate
+@implementation L3Predicate {
+	NSString *_description;
+}
 
 -(instancetype)initWithExpectation:(id<L3Expectation>)expectation description:(NSString *)description block:(L3PredicateBlock)block {
 	NSParameterAssert(block != nil);
