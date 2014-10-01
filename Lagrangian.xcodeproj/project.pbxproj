@@ -15,7 +15,6 @@
 		D42B169517C5B0F000C5CA29 /* L3Block.m in Sources */ = {isa = PBXBuildFile; fileRef = D42B169217C5B0F000C5CA29 /* L3Block.m */; };
 		D42B169617C5B0F000C5CA29 /* L3Block.h in Headers */ = {isa = PBXBuildFile; fileRef = D42B169317C5B0F000C5CA29 /* L3Block.h */; };
 		D42B169717C5B0F000C5CA29 /* L3Block.h in Headers */ = {isa = PBXBuildFile; fileRef = D42B169317C5B0F000C5CA29 /* L3Block.h */; };
-		D42F02E61979BCCC0029EB5C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D42F02E21979B8DD0029EB5C /* XCTest.framework */; };
 		D439168F179E49600002EDCA /* L3Test.h in Headers */ = {isa = PBXBuildFile; fileRef = D439168D179E49600002EDCA /* L3Test.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4391691179E49600002EDCA /* L3Test.h in Headers */ = {isa = PBXBuildFile; fileRef = D439168D179E49600002EDCA /* L3Test.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4391692179E49600002EDCA /* L3Test.m in Sources */ = {isa = PBXBuildFile; fileRef = D439168E179E49600002EDCA /* L3Test.m */; };
@@ -84,7 +83,6 @@
 		D4248C6118C2168100EE3F67 /* L3TestState+SetUpOnSameLineOfDifferentModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "L3TestState+SetUpOnSameLineOfDifferentModule.m"; sourceTree = "<group>"; };
 		D42B169217C5B0F000C5CA29 /* L3Block.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = L3Block.m; sourceTree = "<group>"; };
 		D42B169317C5B0F000C5CA29 /* L3Block.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = L3Block.h; sourceTree = "<group>"; };
-		D42F02E21979B8DD0029EB5C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		D439168D179E49600002EDCA /* L3Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = L3Test.h; sourceTree = "<group>"; };
 		D439168E179E49600002EDCA /* L3Test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = L3Test.m; sourceTree = "<group>"; };
 		D4391695179E49B40002EDCA /* L3Defines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = L3Defines.h; sourceTree = "<group>"; };
@@ -648,7 +646,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -680,6 +678,7 @@
 					"-Wno-auto-import",
 					"-Wno-custom-atomic-properties",
 					"-Wno-direct-ivar-access",
+					"-Wno-documentation-unknown-command",
 				);
 			};
 			name = Debug;
@@ -691,7 +690,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -716,6 +715,7 @@
 					"-Wno-auto-import",
 					"-Wno-custom-atomic-properties",
 					"-Wno-direct-ivar-access",
+					"-Wno-documentation-unknown-command",
 				);
 			};
 			name = Release;
