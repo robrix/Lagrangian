@@ -94,6 +94,8 @@ L3_OVERLOADABLE L3Test *L3TestDefine(NSString *file, NSUInteger line, NSString *
 	return [L3Test testWithSourceReference:L3SourceReferenceCreate(nil, file, line, subjectSource, L3TestSymbolForFunction((L3FunctionTestSubject)L3TestFunctionForBlock((L3BlockTestSubject)subject))) function:function];
 }
 
+#if defined(L3_INCLUDE_TESTS)
+
 /**
  Registers the type of the passed function as allowable as a test subject (i.e. the first parameter to \c l3_test).
  
@@ -115,5 +117,10 @@ L3_OVERLOADABLE L3Test *L3TestDefine(NSString *file, NSUInteger line, NSString *
 	L3_OVERLOADABLE L3Test *L3TestDefine(NSString *file, NSUInteger line, NSString *subjectSource, __typeof__(blockSubject) subject, L3TestFunction function) { \
 		return [L3Test testWithSourceReference:L3SourceReferenceCreate(nil, file, line, subjectSource, L3TestSymbolForFunction((L3FunctionTestSubject)L3TestFunctionForBlock((L3BlockTestSubject)subject))) function:function]; \
 	}
+
+#else
+#define l3_addTestSubjectTypeWithFunction(functionSubject)
+#define l3_addTestSubjectTypeWithBlock(blockSubject)
+#endif
 
 #endif // L3_TEST_H
