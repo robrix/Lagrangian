@@ -20,6 +20,7 @@
 #define _l3_test_construct(uid, ...) \
 	L3_INLINE void _l3_test_function_name(uid) (L3Test *self); \
 	L3_CONSTRUCTOR void _l3_test_constructor_name(uid) (void) { \
+		if ([L3TestSuite class] == nil) return; \
 		L3TestSuite *suite = [L3TestSuite suiteForFile:@__FILE__ inExecutableForAddress:_l3_test_constructor_name(uid)]; \
 		L3Test *test = L3TestDefine(@__FILE__, __LINE__, @#__VA_ARGS__, __VA_ARGS__, &_l3_test_function_name(uid)); \
 		test.statePrototype = suite.statePrototype; \
