@@ -678,7 +678,9 @@
 					"-Wno-auto-import",
 					"-Wno-custom-atomic-properties",
 					"-Wno-direct-ivar-access",
+					"-Wno-cstring-format-directive",
 					"-Wno-documentation-unknown-command",
+					"-Rno-module-build",
 				);
 			};
 			name = Debug;
@@ -715,7 +717,9 @@
 					"-Wno-auto-import",
 					"-Wno-custom-atomic-properties",
 					"-Wno-direct-ivar-access",
+					"-Wno-cstring-format-directive",
 					"-Wno-documentation-unknown-command",
+					"-Rno-module-build",
 				);
 			};
 			name = Release;
